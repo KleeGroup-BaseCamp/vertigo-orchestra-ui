@@ -229,7 +229,6 @@
           <q-timeline color="primary">
             <q-timeline-entry
               v-for="execution in executions"
-              :subtitle="execution.beginTime"
               :key="execution.preId"
               :icon="
                 execution.status == 'DONE'
@@ -239,14 +238,18 @@
                   : 'help'
               "
             >
-              <q-list bordered dense class="rounded-borders">
-                <q-expansion-item
-                  expand-separator
-                  label="Learn more"
-                  @show="fetchActivities(execution.preId)"
-                  dense
-                  class="text-subtitle2"
-                >
+              <template v-slot:subtitle>
+                {{ execution.beginTime }}
+                <q-btn
+                  round
+                  color="black"
+                  icon="add"
+                  size="xs"
+                  @click="fetchActivities(execution.preId)"
+                />
+              </template>
+              <q-slide-transition>
+                <div v-show="visible[execution.preId]">
                   <q-card>
                     <q-separator />
                     <q-card-section>
@@ -415,8 +418,8 @@
                       </q-splitter>
                     </q-card-section>
                   </q-card>
-                </q-expansion-item>
-              </q-list>
+                </div>
+              </q-slide-transition>
             </q-timeline-entry>
           </q-timeline>
         </div>
@@ -447,13 +450,14 @@ export default {
       .get(
         "http://localhost:8080/getting-started-vertigo/api/orchestra/executions/?processName=" +
           this.$route.params.name +
-          "&limit=7"
+          "&limit=10"
       )
       .then(res => {
         this.executions = this.formatExecutions(res.data);
 
         res.data.map(execution => {
           this.$set(this.tabs, execution.preId, "info");
+          this.$set(this.visible, execution.preId, false);
         });
       });
     // Get process label from its name
@@ -473,6 +477,7 @@ export default {
       filterTab: "all", // Tab for filtering executions
       executions: [],
       activities: {},
+      visible: {},
       tabs: {}, //Tabs for navigating inside execution
       splitterModel: 50,
       splitterModelExecutions: 20
@@ -516,6 +521,7 @@ export default {
             this.$set(this.activities, preId, this.formatActivities(res.data));
           });
       }
+      this.visible[preId] = !this.visible[preId];
     },
     formatActivities: function(unformattedActivities) {
       return unformattedActivities.map(activity => {
