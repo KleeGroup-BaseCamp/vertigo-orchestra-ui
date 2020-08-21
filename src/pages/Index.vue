@@ -110,7 +110,6 @@ export default {
     },
     updateData() {
       this.data = [];
-      console.log(this.offset);
       this.$axios
         .get(
           `http://localhost:8080/getting-started-vertigo/api/orchestra/executions/summaries?weekOffset=${this.offset}&status=${this.status}`

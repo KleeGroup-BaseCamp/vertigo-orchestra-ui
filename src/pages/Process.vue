@@ -249,7 +249,7 @@
                 />
               </template>
               <q-slide-transition>
-                <div v-show="visible[execution.preId]">
+                <div v-show="visibleExecutions[execution.preId]">
                   <q-card>
                     <q-separator />
                     <q-card-section>
@@ -329,16 +329,29 @@
                                       : 'error'
                                   "
                                 >
-                                  <q-list
-                                    bordered
-                                    class="rounded-borders"
-                                    dense
-                                  >
-                                    <q-expansion-item
-                                      expand-separator
-                                      label="Learn more"
-                                      dense
-                                      class="text-weight-medium"
+                                  <template v-slot:subtitle>
+                                    {{ activity.label }}
+                                    <q-btn
+                                      round
+                                      color="black"
+                                      icon="add"
+                                      size="xs"
+                                      @click="
+                                        visibleActivities[execution.preId][
+                                          activity.aceId
+                                        ] = !visibleActivities[execution.preId][
+                                          activity.aceId
+                                        ]
+                                      "
+                                    />
+                                  </template>
+                                  <q-slide-transition>
+                                    <div
+                                      v-show="
+                                        visibleActivities[execution.preId][
+                                          activity.aceId
+                                        ]
+                                      "
                                     >
                                       <q-card>
                                         <q-separator />
@@ -361,8 +374,8 @@
                                           </div>
                                         </q-card-section>
                                       </q-card>
-                                    </q-expansion-item>
-                                  </q-list>
+                                    </div>
+                                  </q-slide-transition>
                                 </q-timeline-entry>
                               </q-timeline>
                             </q-tab-panel>
@@ -457,7 +470,7 @@ export default {
 
         res.data.map(execution => {
           this.$set(this.tabs, execution.preId, "info");
-          this.$set(this.visible, execution.preId, false);
+          this.$set(this.visibleExecutions, execution.preId, false);
         });
       });
     // Get process label from its name
@@ -477,7 +490,8 @@ export default {
       filterTab: "all", // Tab for filtering executions
       executions: [],
       activities: {},
-      visible: {},
+      visibleExecutions: {},
+      visibleActivities: {},
       tabs: {}, //Tabs for navigating inside execution
       splitterModel: 50,
       splitterModelExecutions: 20
@@ -519,9 +533,14 @@ export default {
           )
           .then(res => {
             this.$set(this.activities, preId, this.formatActivities(res.data));
+            let temp = {}; // No idea on how to name this var
+            res.data.map(activity => {
+              temp[activity.aceId] = false;
+            });
+            this.$set(this.visibleActivities, preId, temp);
           });
       }
-      this.visible[preId] = !this.visible[preId];
+      this.$set(this.visibleExecutions, preId, !this.visibleExecutions[preId]);
     },
     formatActivities: function(unformattedActivities) {
       return unformattedActivities.map(activity => {
@@ -539,6 +558,11 @@ export default {
           this.executions = this.formatExecutions(res.data);
           res.data.map(execution => {
             this.$set(this.tabs, execution.preId, "info");
+            this.$set(
+              this.visibleExecutions,
+              preId,
+              this.visibleExecutions[preId] || false
+            );
           });
         });
     }
