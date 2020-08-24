@@ -15,7 +15,7 @@
 
           <q-card class="my-card">
             <q-card-section>
-              <div class="text-h6">Exécutions totales</div>
+              <div class="text-h6">Exécutions totales de la semaine</div>
             </q-card-section>
 
             <q-separator inset />
@@ -226,101 +226,91 @@
               </q-tabs>
             </div>
           </div>
-          <q-timeline color="primary">
-            <q-timeline-entry
-              v-for="execution in executions"
-              :key="execution.preId"
-              :icon="
-                execution.status == 'DONE'
-                  ? 'done'
-                  : execution.status == 'ERROR'
-                  ? 'error'
-                  : 'help'
-              "
-            >
-              <template v-slot:subtitle>
-                {{ execution.beginTime }}
-                <q-btn
-                  round
-                  color="black"
-                  icon="add"
-                  size="xs"
-                  @click="fetchActivities(execution.preId)"
-                />
-              </template>
-              <q-slide-transition>
-                <div v-show="visibleExecutions[execution.preId]">
-                  <q-card>
-                    <q-separator />
-                    <q-card-section>
-                      <q-splitter v-model="splitterModelExecutions">
-                        <template v-slot:before>
-                          <q-tabs
-                            v-model="tabs[execution.preId]"
-                            vertical
-                            class="text-primary"
-                          >
-                            <q-tab name="info" label="Informations" />
-                            <q-tab name="activities" label="Activités" />
-                            <q-tab name="support" label="Prise en charge" />
-                          </q-tabs>
-                        </template>
-                        <template v-slot:after>
-                          <q-tab-panels
-                            v-model="tabs[execution.preId]"
-                            animated
-                            vertical
-                            transition-prev="jump-up"
-                            transition-next="jump-up"
-                          >
-                            <q-tab-panel name="info">
-                              <div class="text-h5">Informations</div>
-                              <q-separator class="q-mt-sm q-mb-md" />
-                              <div style="max-width: 400px">
-                                <q-list dense>
-                                  <q-item>
-                                    <q-item-section>
-                                      <div class="text-weight-medium">
-                                        Date de début
-                                      </div>
-                                    </q-item-section>
-                                    <q-item-section side>
-                                      {{ execution.beginTime }}
-                                    </q-item-section>
-                                  </q-item>
-                                  <q-item>
-                                    <q-item-section>
-                                      <div class="text-weight-medium">
-                                        Date de fin
-                                      </div>
-                                    </q-item-section>
-                                    <q-item-section side>
-                                      {{ execution.endTime }}
-                                    </q-item-section>
-                                  </q-item>
-                                  <q-item>
-                                    <q-item-section>
-                                      <div class="text-weight-medium">
-                                        Durée
-                                      </div>
-                                    </q-item-section>
-                                    <q-item-section side>
-                                      {{ execution.executionTime }}
-                                    </q-item-section>
-                                  </q-item>
-                                </q-list>
-                              </div>
-                            </q-tab-panel>
-                            <q-tab-panel name="activities">
-                              <div class="text-h5">Activités</div>
-                              <q-separator class="q-mt-sm q-mb-md" />
-                              <q-timeline color="primary">
-                                <q-timeline-entry
-                                  v-for="activity in activities[
-                                    execution.preId
-                                  ]"
-                                  :key="activity.aceId"
-                                  :subtitle="activity.label"
+          <q-list bordered class="rounded-borders q-mt-sm">
+            <div v-for="execution in executions" :key="execution.preId">
+              <q-expansion-item
+                expand-separator
+                :icon="
+                  execution.status == 'DONE'
+                    ? 'done'
+                    : execution.status == 'ERROR'
+                    ? 'error'
+                    : 'help'
+                "
+                :label="execution.beginTime"
+                @show="fetchActivities(execution.preId)"
+              >
+                <q-card>
+                  <q-separator />
+                  <q-card-section>
+                    <q-splitter v-model="splitterModelExecutions">
+                      <template v-slot:before>
+                        <q-tabs
+                          v-model="tabs[execution.preId]"
+                          vertical
+                          class="text-primary"
+                        >
+                          <q-tab name="info" label="Informations" />
+                          <q-tab name="activities" label="Activités" />
+                          <q-tab name="support" label="Prise en charge" />
+                        </q-tabs>
+                      </template>
+                      <template v-slot:after>
+                        <q-tab-panels
+                          v-model="tabs[execution.preId]"
+                          animated
+                          vertical
+                          transition-prev="jump-up"
+                          transition-next="jump-up"
+                        >
+                          <q-tab-panel name="info">
+                            <div class="text-h5">Informations</div>
+                            <q-separator class="q-mt-sm q-mb-md" />
+                            <div style="max-width: 400px">
+                              <q-list dense>
+                                <q-item>
+                                  <q-item-section>
+                                    <div class="text-weight-medium">
+                                      Date de début
+                                    </div>
+                                  </q-item-section>
+                                  <q-item-section side>
+                                    {{ execution.beginTime }}
+                                  </q-item-section>
+                                </q-item>
+                                <q-item>
+                                  <q-item-section>
+                                    <div class="text-weight-medium">
+                                      Date de fin
+                                    </div>
+                                  </q-item-section>
+                                  <q-item-section side>
+                                    {{ execution.endTime }}
+                                  </q-item-section>
+                                </q-item>
+                                <q-item>
+                                  <q-item-section>
+                                    <div class="text-weight-medium">
+                                      Durée
+                                    </div>
+                                  </q-item-section>
+                                  <q-item-section side>
+                                    {{ execution.executionTime }}
+                                  </q-item-section>
+                                </q-item>
+                              </q-list>
+                            </div>
+                          </q-tab-panel>
+                          <q-tab-panel name="activities">
+                            <div class="text-h5">Activités</div>
+                            <q-separator class="q-mt-sm q-mb-md" />
+                            <q-list bordered class="rounded-borders">
+                              <div
+                                v-for="activity in activities[execution.preId]"
+                                :key="activity.aceId"
+                              >
+                                <q-expansion-item
+                                  expand-separator
                                   :icon="
                                     execution.status == 'RUNNING'
                                       ? 'help'
@@ -328,113 +318,87 @@
                                       ? 'done'
                                       : 'error'
                                   "
+                                  :label="activity.label"
                                 >
-                                  <template v-slot:subtitle>
-                                    {{ activity.label }}
-                                    <q-btn
-                                      round
-                                      color="black"
-                                      icon="add"
-                                      size="xs"
-                                      @click="
-                                        visibleActivities[execution.preId][
-                                          activity.aceId
-                                        ] = !visibleActivities[execution.preId][
-                                          activity.aceId
-                                        ]
-                                      "
-                                    />
-                                  </template>
-                                  <q-slide-transition>
-                                    <div
-                                      v-show="
-                                        visibleActivities[execution.preId][
-                                          activity.aceId
-                                        ]
-                                      "
-                                    >
-                                      <q-card>
-                                        <q-separator />
-                                        <q-card-section>
-                                          <div style="max-width: 400px">
-                                            <q-list dense>
-                                              <q-item>
-                                                <q-item-section>
-                                                  <div
-                                                    class="text-weight-medium"
-                                                  >
-                                                    Date de début
-                                                  </div>
-                                                </q-item-section>
-                                                <q-item-section side>
-                                                  {{ activity.beginTime }}
-                                                </q-item-section>
-                                              </q-item>
-                                            </q-list>
-                                          </div>
-                                        </q-card-section>
-                                      </q-card>
+                                  <q-card>
+                                    <q-separator />
+                                    <q-card-section>
+                                      <div style="max-width: 400px">
+                                        <q-list dense>
+                                          <q-item>
+                                            <q-item-section>
+                                              <div class="text-weight-medium">
+                                                Date de début
+                                              </div>
+                                            </q-item-section>
+                                            <q-item-section side>
+                                              {{ activity.beginTime }}
+                                            </q-item-section>
+                                          </q-item>
+                                        </q-list>
+                                      </div>
+                                    </q-card-section>
+                                  </q-card> </q-expansion-item
+                                ><q-separator />
+                              </div>
+                            </q-list>
+                          </q-tab-panel>
+                          <q-tab-panel name="support">
+                            <div class="text-h5">
+                              Prise en charge
+                              <q-btn
+                                round
+                                color="primary"
+                                icon="edit"
+                                class="q-ml-sm"
+                                size="sm"
+                              />
+                            </div>
+                            <q-separator class="q-mt-sm q-mb-md" />
+                            <div style="max-width: 400px">
+                              <q-list dense>
+                                <q-item>
+                                  <q-item-section>
+                                    <div class="text-weight-medium">
+                                      Prise en charge
                                     </div>
-                                  </q-slide-transition>
-                                </q-timeline-entry>
-                              </q-timeline>
-                            </q-tab-panel>
-                            <q-tab-panel name="support">
-                              <div class="text-h5">
-                                Prise en charge
-                                <q-btn
-                                  round
-                                  color="primary"
-                                  icon="edit"
-                                  class="q-ml-sm"
-                                  size="sm"
-                                />
-                              </div>
-                              <q-separator class="q-mt-sm q-mb-md" />
-                              <div style="max-width: 400px">
-                                <q-list dense>
-                                  <q-item>
-                                    <q-item-section>
-                                      <div class="text-weight-medium">
-                                        Prise en charge
-                                      </div>
-                                    </q-item-section>
-                                    <q-item-section side>
-                                      To fill !
-                                    </q-item-section>
-                                  </q-item>
-                                  <q-item>
-                                    <q-item-section>
-                                      <div class="text-weight-medium">
-                                        Date de prise en charge
-                                      </div>
-                                    </q-item-section>
-                                    <q-item-section side>
-                                      To fill !
-                                    </q-item-section>
-                                  </q-item>
-                                  <q-item>
-                                    <q-item-section>
-                                      <div class="text-weight-medium">
-                                        Commentaire
-                                      </div>
-                                    </q-item-section>
-                                    <q-item-section side>
-                                      To fill !
-                                    </q-item-section>
-                                  </q-item>
-                                </q-list>
-                              </div>
-                            </q-tab-panel>
-                          </q-tab-panels>
-                        </template>
-                      </q-splitter>
-                    </q-card-section>
-                  </q-card>
-                </div>
-              </q-slide-transition>
-            </q-timeline-entry>
-          </q-timeline>
+                                  </q-item-section>
+                                  <q-item-section side>
+                                    To fill !
+                                  </q-item-section>
+                                </q-item>
+                                <q-item>
+                                  <q-item-section>
+                                    <div class="text-weight-medium">
+                                      Date de prise en charge
+                                    </div>
+                                  </q-item-section>
+                                  <q-item-section side>
+                                    To fill !
+                                  </q-item-section>
+                                </q-item>
+                                <q-item>
+                                  <q-item-section>
+                                    <div class="text-weight-medium">
+                                      Commentaire
+                                    </div>
+                                  </q-item-section>
+                                  <q-item-section side>
+                                    To fill !
+                                  </q-item-section>
+                                </q-item>
+                              </q-list>
+                            </div>
+                          </q-tab-panel>
+                        </q-tab-panels>
+                      </template>
+                    </q-splitter>
+                  </q-card-section>
+                </q-card>
+              </q-expansion-item>
+              <q-separator />
+            </div>
+          </q-list>
         </div>
       </template>
     </q-splitter>
@@ -470,7 +434,6 @@ export default {
 
         res.data.map(execution => {
           this.$set(this.tabs, execution.preId, "info");
-          this.$set(this.visibleExecutions, execution.preId, false);
         });
       });
     // Get process label from its name
@@ -490,8 +453,7 @@ export default {
       filterTab: "all", // Tab for filtering executions
       executions: [],
       activities: {},
-      visibleExecutions: {},
-      visibleActivities: {},
+      expandedExecutions: {},
       tabs: {}, //Tabs for navigating inside execution
       splitterModel: 50,
       splitterModelExecutions: 20
@@ -533,14 +495,8 @@ export default {
           )
           .then(res => {
             this.$set(this.activities, preId, this.formatActivities(res.data));
-            let temp = {}; // No idea on how to name this var
-            res.data.map(activity => {
-              temp[activity.aceId] = false;
-            });
-            this.$set(this.visibleActivities, preId, temp);
           });
       }
-      this.$set(this.visibleExecutions, preId, !this.visibleExecutions[preId]);
     },
     formatActivities: function(unformattedActivities) {
       return unformattedActivities.map(activity => {
@@ -558,11 +514,6 @@ export default {
           this.executions = this.formatExecutions(res.data);
           res.data.map(execution => {
             this.$set(this.tabs, execution.preId, "info");
-            this.$set(
-              this.visibleExecutions,
-              preId,
-              this.visibleExecutions[preId] || false
-            );
           });
         });
     }
