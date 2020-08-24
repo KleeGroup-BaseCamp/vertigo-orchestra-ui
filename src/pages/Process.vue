@@ -7,9 +7,7 @@
             {{
               processInfo.label
                 ? processInfo.label
-                : "Error : Process with name '" +
-                  this.$route.params.name +
-                  "' doesn't have a label"
+                : "Error : No process with name '" + $route.params.name + "'"
             }}
           </div>
 
@@ -226,179 +224,188 @@
               </q-tabs>
             </div>
           </div>
-          <q-list bordered class="rounded-borders q-mt-sm">
-            <div v-for="execution in executions" :key="execution.preId">
-              <q-expansion-item
-                expand-separator
-                :icon="
-                  execution.status == 'DONE'
-                    ? 'done'
-                    : execution.status == 'ERROR'
-                    ? 'error'
-                    : 'help'
-                "
-                :label="execution.beginTime"
-                @show="fetchActivities(execution.preId)"
-              >
-                <q-card>
-                  <q-separator />
-                  <q-card-section>
-                    <q-splitter v-model="splitterModelExecutions">
-                      <template v-slot:before>
-                        <q-tabs
-                          v-model="tabs[execution.preId]"
-                          vertical
-                          class="text-primary"
-                        >
-                          <q-tab name="info" label="Informations" />
-                          <q-tab name="activities" label="Activités" />
-                          <q-tab name="support" label="Prise en charge" />
-                        </q-tabs>
-                      </template>
-                      <template v-slot:after>
-                        <q-tab-panels
-                          v-model="tabs[execution.preId]"
-                          animated
-                          vertical
-                          transition-prev="jump-up"
-                          transition-next="jump-up"
-                        >
-                          <q-tab-panel name="info">
-                            <div class="text-h5">Informations</div>
-                            <q-separator class="q-mt-sm q-mb-md" />
-                            <div style="max-width: 400px">
-                              <q-list dense>
-                                <q-item>
-                                  <q-item-section>
-                                    <div class="text-weight-medium">
-                                      Date de début
-                                    </div>
-                                  </q-item-section>
-                                  <q-item-section side>
-                                    {{ execution.beginTime }}
-                                  </q-item-section>
-                                </q-item>
-                                <q-item>
-                                  <q-item-section>
-                                    <div class="text-weight-medium">
-                                      Date de fin
-                                    </div>
-                                  </q-item-section>
-                                  <q-item-section side>
-                                    {{ execution.endTime }}
-                                  </q-item-section>
-                                </q-item>
-                                <q-item>
-                                  <q-item-section>
-                                    <div class="text-weight-medium">
-                                      Durée
-                                    </div>
-                                  </q-item-section>
-                                  <q-item-section side>
-                                    {{ execution.executionTime }}
-                                  </q-item-section>
-                                </q-item>
-                              </q-list>
-                            </div>
-                          </q-tab-panel>
-                          <q-tab-panel name="activities">
-                            <div class="text-h5">Activités</div>
-                            <q-separator class="q-mt-sm q-mb-md" />
-                            <q-list bordered class="rounded-borders">
-                              <div
-                                v-for="activity in activities[execution.preId]"
-                                :key="activity.aceId"
-                              >
-                                <q-expansion-item
-                                  expand-separator
-                                  :icon="
-                                    execution.status == 'RUNNING'
-                                      ? 'help'
-                                      : activity.status == 'DONE'
-                                      ? 'done'
-                                      : 'error'
-                                  "
-                                  :label="activity.label"
-                                >
-                                  <q-card>
-                                    <q-separator />
-                                    <q-card-section>
-                                      <div style="max-width: 400px">
-                                        <q-list dense>
-                                          <q-item>
-                                            <q-item-section>
-                                              <div class="text-weight-medium">
-                                                Date de début
-                                              </div>
-                                            </q-item-section>
-                                            <q-item-section side>
-                                              {{ activity.beginTime }}
-                                            </q-item-section>
-                                          </q-item>
-                                        </q-list>
+          <q-infinite-scroll @load="onLoad" :offset="50">
+            <q-list bordered class="rounded-borders q-mt-sm">
+              <div v-for="execution in executions" :key="execution.preId">
+                <q-expansion-item
+                  expand-separator
+                  :icon="
+                    execution.status == 'DONE'
+                      ? 'done'
+                      : execution.status == 'ERROR'
+                      ? 'error'
+                      : 'help'
+                  "
+                  :label="execution.beginTime"
+                  @show="fetchActivities(execution.preId)"
+                >
+                  <q-card>
+                    <q-separator />
+                    <q-card-section>
+                      <q-splitter v-model="splitterModelExecutions">
+                        <template v-slot:before>
+                          <q-tabs
+                            v-model="tabs[execution.preId]"
+                            vertical
+                            class="text-primary"
+                          >
+                            <q-tab name="info" label="Informations" />
+                            <q-tab name="activities" label="Activités" />
+                            <q-tab name="support" label="Prise en charge" />
+                          </q-tabs>
+                        </template>
+                        <template v-slot:after>
+                          <q-tab-panels
+                            v-model="tabs[execution.preId]"
+                            animated
+                            vertical
+                            transition-prev="jump-up"
+                            transition-next="jump-up"
+                          >
+                            <q-tab-panel name="info">
+                              <div class="text-h5">Informations</div>
+                              <q-separator class="q-mt-sm q-mb-md" />
+                              <div style="max-width: 400px">
+                                <q-list dense>
+                                  <q-item>
+                                    <q-item-section>
+                                      <div class="text-weight-medium">
+                                        Date de début
                                       </div>
-                                    </q-card-section>
-                                  </q-card> </q-expansion-item
-                                ><q-separator />
+                                    </q-item-section>
+                                    <q-item-section side>
+                                      {{ execution.beginTime }}
+                                    </q-item-section>
+                                  </q-item>
+                                  <q-item>
+                                    <q-item-section>
+                                      <div class="text-weight-medium">
+                                        Date de fin
+                                      </div>
+                                    </q-item-section>
+                                    <q-item-section side>
+                                      {{ execution.endTime }}
+                                    </q-item-section>
+                                  </q-item>
+                                  <q-item>
+                                    <q-item-section>
+                                      <div class="text-weight-medium">
+                                        Durée
+                                      </div>
+                                    </q-item-section>
+                                    <q-item-section side>
+                                      {{ execution.executionTime }}
+                                    </q-item-section>
+                                  </q-item>
+                                </q-list>
                               </div>
-                            </q-list>
-                          </q-tab-panel>
-                          <q-tab-panel name="support">
-                            <div class="text-h5">
-                              Prise en charge
-                              <q-btn
-                                round
-                                color="primary"
-                                icon="edit"
-                                class="q-ml-sm"
-                                size="sm"
-                              />
-                            </div>
-                            <q-separator class="q-mt-sm q-mb-md" />
-                            <div style="max-width: 400px">
-                              <q-list dense>
-                                <q-item>
-                                  <q-item-section>
-                                    <div class="text-weight-medium">
-                                      Prise en charge
-                                    </div>
-                                  </q-item-section>
-                                  <q-item-section side>
-                                    To fill !
-                                  </q-item-section>
-                                </q-item>
-                                <q-item>
-                                  <q-item-section>
-                                    <div class="text-weight-medium">
-                                      Date de prise en charge
-                                    </div>
-                                  </q-item-section>
-                                  <q-item-section side>
-                                    To fill !
-                                  </q-item-section>
-                                </q-item>
-                                <q-item>
-                                  <q-item-section>
-                                    <div class="text-weight-medium">
-                                      Commentaire
-                                    </div>
-                                  </q-item-section>
-                                  <q-item-section side>
-                                    To fill !
-                                  </q-item-section>
-                                </q-item>
+                            </q-tab-panel>
+                            <q-tab-panel name="activities">
+                              <div class="text-h5">Activités</div>
+                              <q-separator class="q-mt-sm q-mb-md" />
+                              <q-list bordered class="rounded-borders">
+                                <div
+                                  v-for="activity in activities[
+                                    execution.preId
+                                  ]"
+                                  :key="activity.aceId"
+                                >
+                                  <q-expansion-item
+                                    expand-separator
+                                    :icon="
+                                      execution.status == 'RUNNING'
+                                        ? 'help'
+                                        : activity.status == 'DONE'
+                                        ? 'done'
+                                        : 'error'
+                                    "
+                                    :label="activity.label"
+                                  >
+                                    <q-card>
+                                      <q-separator />
+                                      <q-card-section>
+                                        <div style="max-width: 400px">
+                                          <q-list dense>
+                                            <q-item>
+                                              <q-item-section>
+                                                <div class="text-weight-medium">
+                                                  Date de début
+                                                </div>
+                                              </q-item-section>
+                                              <q-item-section side>
+                                                {{ activity.beginTime }}
+                                              </q-item-section>
+                                            </q-item>
+                                          </q-list>
+                                        </div>
+                                      </q-card-section>
+                                    </q-card> </q-expansion-item
+                                  ><q-separator />
+                                </div>
                               </q-list>
-                            </div>
-                          </q-tab-panel>
-                        </q-tab-panels>
-                      </template>
-                    </q-splitter>
-                  </q-card-section>
-                </q-card>
-              </q-expansion-item>
-              <q-separator />
-            </div>
-          </q-list>
+                            </q-tab-panel>
+                            <q-tab-panel name="support">
+                              <div class="text-h5">
+                                Prise en charge
+                                <q-btn
+                                  round
+                                  color="primary"
+                                  icon="edit"
+                                  class="q-ml-sm"
+                                  size="sm"
+                                />
+                              </div>
+                              <q-separator class="q-mt-sm q-mb-md" />
+                              <div style="max-width: 400px">
+                                <q-list dense>
+                                  <q-item>
+                                    <q-item-section>
+                                      <div class="text-weight-medium">
+                                        Prise en charge
+                                      </div>
+                                    </q-item-section>
+                                    <q-item-section side>
+                                      To fill !
+                                    </q-item-section>
+                                  </q-item>
+                                  <q-item>
+                                    <q-item-section>
+                                      <div class="text-weight-medium">
+                                        Date de prise en charge
+                                      </div>
+                                    </q-item-section>
+                                    <q-item-section side>
+                                      To fill !
+                                    </q-item-section>
+                                  </q-item>
+                                  <q-item>
+                                    <q-item-section>
+                                      <div class="text-weight-medium">
+                                        Commentaire
+                                      </div>
+                                    </q-item-section>
+                                    <q-item-section side>
+                                      To fill !
+                                    </q-item-section>
+                                  </q-item>
+                                </q-list>
+                              </div>
+                            </q-tab-panel>
+                          </q-tab-panels>
+                        </template>
+                      </q-splitter>
+                    </q-card-section>
+                  </q-card>
+                </q-expansion-item>
+                <q-separator />
+              </div>
+            </q-list>
+            <template v-slot:loading>
+              <div class="row justify-center q-my-md">
+                <q-spinner-ios color="primary" size="2em" />
+              </div>
+            </template>
+          </q-infinite-scroll>
         </div>
       </template>
     </q-splitter>
@@ -425,9 +432,7 @@ export default {
       });
     this.$axios
       .get(
-        "http://localhost:8080/getting-started-vertigo/api/orchestra/executions/?processName=" +
-          this.$route.params.name +
-          "&limit=10"
+        `http://localhost:8080/getting-started-vertigo/api/orchestra/executions/?processName=${this.$route.params.name}&limit=${this.limit}`
       )
       .then(res => {
         this.executions = this.formatExecutions(res.data);
@@ -447,6 +452,8 @@ export default {
   },
   data() {
     return {
+      limit: 0,
+      status: "",
       processInfo: {},
       processSummary: {},
       processLabel: "",
@@ -506,15 +513,32 @@ export default {
       });
     },
     updateExecutions: function(status) {
+      this.limit = 20;
+      this.status = status
       this.$axios
         .get(
-          `http://localhost:8080/getting-started-vertigo/api/orchestra/executions/?processName=${this.$route.params.name}&status=${status}&limit=10`
+          `http://localhost:8080/getting-started-vertigo/api/orchestra/executions/?processName=${this.$route.params.name}&status=${this.status}&limit=${this.limit}`
         )
         .then(res => {
           this.executions = this.formatExecutions(res.data);
           res.data.map(execution => {
             this.$set(this.tabs, execution.preId, "info");
           });
+        });
+    },
+    onLoad(index, done) {
+      console.log("called");
+      this.limit += 20;
+      this.$axios
+        .get(
+          `http://localhost:8080/getting-started-vertigo/api/orchestra/executions/?processName=${this.$route.params.name}&status=${this.status}&limit=${this.limit}`
+        )
+        .then(res => {
+          this.executions = this.formatExecutions(res.data);
+          res.data.slice(-20).map(execution => {
+            this.$set(this.tabs, execution.preId, "info");
+          });
+          done();
         });
     }
   }
