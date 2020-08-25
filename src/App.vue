@@ -1,32 +1,44 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <q-layout view="hHh LpR fFf">
+    <q-header elevated class="text-white gradient-bg">
+      <q-toolbar class="">
+        <q-toolbar-title
+          ><a href="/">
+            <q-avatar> <img src="./assets/vertigo-io.png" /> </q-avatar
+          ></a>
+          Orchestra UI
+        </q-toolbar-title>
+        <q-space /><q-btn flat round icon="power_settings_new" />
+      </q-toolbar>
+    </q-header>
+
+    <q-page-container>
+      <router-view />
+    </q-page-container>
+
+    <q-footer elevated class="bg-grey-8 text-white">
+      <q-toolbar>
+        <q-toolbar-title class="absolute-center">
+          Copyright &copy; 2020 - 2020
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-footer>
+  </q-layout>
 </template>
 
+<script>
+export default {
+  data() {
+    return {
+      left: false,
+    };
+  },
+};
+</script>
 <style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
+$primary: #4396cb;
+$secondary: #4353cb;
+.gradient-bg {
+  background-image: linear-gradient(to right, $secondary, $primary);
 }
 </style>
