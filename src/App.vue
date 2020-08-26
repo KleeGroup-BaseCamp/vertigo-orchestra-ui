@@ -36,7 +36,7 @@ export default {
 };
 </script>
 <style lang="scss">
-$primary: #4396cb;
+$primary: #4396cb; // Duplicate of quasar variables (To refactor)
 $secondary: #4353cb;
 .gradient-bg {
   background-image: linear-gradient(to right, $secondary, $primary);

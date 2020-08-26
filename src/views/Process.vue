@@ -64,7 +64,7 @@
                 Identification fonctionnelle
                 <q-btn
                   round
-                  color="primary"
+                  color="secondary"
                   icon="edit"
                   class="q-ml-sm"
                   size="sm"
@@ -89,7 +89,7 @@
                 Identification technique
                 <q-btn
                   round
-                  color="primary"
+                  color="secondary"
                   icon="edit"
                   class="q-ml-sm"
                   size="sm"
@@ -173,7 +173,7 @@
                 Paramètres
                 <q-btn
                   round
-                  color="primary"
+                  color="secondary"
                   icon="edit"
                   class="q-ml-sm"
                   size="sm"
@@ -579,8 +579,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-$primary: #4396cb;
-$secondary: #4353cb;
-</style>
