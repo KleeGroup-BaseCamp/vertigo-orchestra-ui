@@ -31,9 +31,7 @@ import router from "./router";
 export default {
   name: "app",
   router,
-  // mounted() {
-  //   router.push("/");
-  // },
+
   data() {
     return {
       left: false,

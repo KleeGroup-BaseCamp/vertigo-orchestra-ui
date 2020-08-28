@@ -10,18 +10,18 @@
 // }).$mount('#app')
 
 import App from "./App.vue";
-import Appumd from "./views/Appumd.vue";
-import Home from "./views/Home.vue";
+import Appspa from "./views/Appspa.vue";
+// import Home from "./views/Home.vue";
 import Homeumd from "./views/Homeumd.vue";
-import Process from "./views/Process.vue";
+// import Process from "./views/Process.vue";
 import Processumd from "./views/Processumd.vue";
 
 export function install(Vue /*options*/) {
-  Vue.component("app", App);
-  Vue.component("appumd", Appumd);
-  Vue.component("home", Home);
+  Vue.component("orchestra-ui", App);
+  Vue.component("orchestra-ui-spa", Appspa);
+  // Vue.component("home", Home);
   Vue.component("homeumd", Homeumd);
-  Vue.component("process", Process);
+  // Vue.component("process", Process);
   Vue.component("processumd", Processumd);
 }
 
