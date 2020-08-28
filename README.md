@@ -1,4 +1,3 @@
-# orchestra-ui (Vue-cli)
+# vertigo-orchestra-ui
 
-This is a reproduction of [Orchestra UI](https://github.com/KleeGroup-BaseCamp/vertigo-orchestra-ui) using Vue CLI instead of Quasar CLI.
-
+A VueJS app for the Vertigo's extensions Orchestra
