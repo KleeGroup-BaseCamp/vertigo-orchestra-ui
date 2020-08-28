@@ -4,7 +4,7 @@
       <q-toolbar class="">
         <q-toolbar-title
           ><a href="/">
-            <q-avatar> <img src="./assets/vertigo-io.png" /> </q-avatar
+            <q-avatar> <img src="../assets/vertigo-io.png" /> </q-avatar
           ></a>
           Orchestra UI
         </q-toolbar-title>
@@ -13,7 +13,8 @@
     </q-header>
 
     <q-page-container>
-      <router-view />
+      <slot></slot>
+      <!-- <router-view /> -->
     </q-page-container>
 
     <q-footer elevated class="bg-grey-8 text-white">
@@ -27,13 +28,7 @@
 </template>
 
 <script>
-import router from "./router";
 export default {
-  name: "app",
-  router,
-  // mounted() {
-  //   router.push("/");
-  // },
   data() {
     return {
       left: false,
@@ -46,8 +41,5 @@ $primary: #4396cb; // Duplicate of quasar variables (To refactor)
 $secondary: #4353cb;
 .gradient-bg {
   background-image: linear-gradient(to right, $secondary, $primary);
-}
-div.q-loading-bar {
-  display: none;
 }
 </style>
