@@ -449,21 +449,21 @@ export default {
   created() {
     axios
       .get(
-        `http://localhost:3000/getting-started-vertigo/api/orchestra/definitions/${this.$route.params.name}`
+        `${process.env.VUE_APP_API_URL}/definitions/${this.$route.params.name}`
       )
       .then((res) => {
         this.processInfo = res.data;
       });
     axios
       .get(
-        `http://localhost:3000/getting-started-vertigo/api/orchestra/executions/summaries/${this.$route.params.name}`
+        `${process.env.VUE_APP_API_URL}/executions/summaries/${this.$route.params.name}`
       )
       .then((res) => {
         this.processSummary = res.data;
       });
     axios
       .get(
-        `http://localhost:3000/getting-started-vertigo/api/orchestra/executions/?processName=${this.$route.params.name}&limit=${this.limit}`
+        `${process.env.VUE_APP_API_URL}/executions/?processName=${this.$route.params.name}&limit=${this.limit}`
       )
       .then((res) => {
         this.executions = this.formatExecutions(res.data);
@@ -475,7 +475,7 @@ export default {
     // Get process label from its name
     axios
       .get(
-        `http://localhost:3000/getting-started-vertigo/api/orchestra/definitions/${this.$route.params.name}`
+        `${process.env.VUE_APP_API_URL}/definitions/${this.$route.params.name}`
       )
       .then((res) => {
         this.processLabel = res.data.label;
@@ -529,7 +529,7 @@ export default {
       if (!this.activities[preId]) {
         axios
           .get(
-            `http://localhost:3000/getting-started-vertigo/api/orchestra/executions/${preId}/activities`
+            `${process.env.VUE_APP_API_URL}/executions/${preId}/activities`
           )
           .then((res) => {
             this.$set(this.activities, preId, this.formatActivities(res.data));
@@ -548,7 +548,7 @@ export default {
       this.status = status;
       axios
         .get(
-          `http://localhost:3000/getting-started-vertigo/api/orchestra/executions/?processName=${this.$route.params.name}&status=${this.status}&limit=${this.limit}`
+          `${process.env.VUE_APP_API_URL}/executions/?processName=${this.$route.params.name}&status=${this.status}&limit=${this.limit}`
         )
         .then((res) => {
           this.executions = this.formatExecutions(res.data);
@@ -562,7 +562,7 @@ export default {
       this.limit += 20;
       axios
         .get(
-          `http://localhost:3000/getting-started-vertigo/api/orchestra/executions/?processName=${this.$route.params.name}&status=${this.status}&limit=${this.limit}`
+          `${process.env.VUE_APP_API_URL}/executions/?processName=${this.$route.params.name}&status=${this.status}&limit=${this.limit}`
         )
         .then((res) => {
           this.executions = this.formatExecutions(res.data);
