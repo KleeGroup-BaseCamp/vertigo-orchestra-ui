@@ -56,7 +56,12 @@
         </div>
       </div>
       <div class="q-pa-md">
-        <q-table :data="data" :columns="columns" row-key="name">
+        <q-table
+          :data="data"
+          :columns="columns"
+          row-key="name"
+          :loading="loading"
+        >
           <template v-slot:body="props">
             <q-tr
               :props="props"
@@ -122,6 +127,7 @@ export default {
       return Quasar.utils.date.formatDate(timestamp, "DD/MM/YYYY");
     },
     updateData() {
+      this.loading = true;
       this.data = [];
       axios
         .get(
@@ -137,6 +143,7 @@ export default {
             );
             this.data.push(process);
           });
+          this.loading = false;
         });
     },
     getWeekLimits: function(offset) {
@@ -189,6 +196,7 @@ export default {
         },
       ],
       data: [],
+      loading: false,
       offset: 0,
       status: "A", //Status must not be empty nor in lowercase letters. Any uppercase string would do the job as long as it is different than the keywords: SUCCESS, ERROR et MISFIRED
       tab: "all",

@@ -6,6 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "build-lib": "vue-cli-service build --target lib src/main.js",
+    "test": "vue-cli-service build --target lib src/main.js && rm -f ./test/orchestra-ui.css ./test/orchestra-ui.umd.min.js && cp ./dist/orchestra-ui.css ./test && cp ./dist/orchestra-ui.umd.min.js ./test && light-server -s ./test",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {

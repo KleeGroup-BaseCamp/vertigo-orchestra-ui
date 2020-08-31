@@ -1,13 +1,9 @@
 <template>
-  <q-splitter v-model="splitterModel" style="" :limits="[0, 100]">
+  <q-splitter v-model="splitterModel" style="height: 85vh" :limits="[0, 100]">
     <template v-slot:before>
       <div class="q-pa-md">
         <div class="text-h4 q-mb-md">
-          {{
-            processInfo.label
-              ? processInfo.label
-              : "Error : No process with name '" + $route.params.name + "'"
-          }}
+          {{ processInfo.label }}
         </div>
 
         <q-card class="my-card">
@@ -227,7 +223,11 @@
             </q-tabs>
           </div>
         </div>
-        <q-infinite-scroll @load="onLoad" :offset="50">
+        <q-infinite-scroll
+          @load="onLoad"
+          :offset="50"
+          scroll-target="div.q-splitter__panel.q-splitter__after.col"
+        >
           <q-list bordered class="rounded-borders q-mt-sm">
             <div v-for="execution in executions" :key="execution.preId">
               <q-expansion-item
