@@ -104,6 +104,15 @@
               </q-td>
             </q-tr>
           </template>
+          <template v-slot:no-data>
+            <div class="full-width row flex-center q-gutter-sm">
+              <span v-if="loading"> Loading <q-spinner /> </span>
+              <span v-else-if="fail">
+                Connection to the API couldn't be established !
+              </span>
+              <span v-else>No data available</span>
+            </div>
+          </template>
         </q-table>
       </div>
     </div>
@@ -128,6 +137,7 @@ export default {
     },
     updateData() {
       this.loading = true;
+      this.fail = false;
       this.data = [];
       axios
         .get(
@@ -144,6 +154,11 @@ export default {
             this.data.push(process);
           });
           this.loading = false;
+        })
+        .catch((err) => {
+          this.fail = true;
+          this.loading = false;
+          console.error(err);
         });
     },
     getWeekLimits: function(offset) {
@@ -197,6 +212,7 @@ export default {
       ],
       data: [],
       loading: false,
+      fail: false,
       offset: 0,
       status: "A", //Status must not be empty nor in lowercase letters. Any uppercase string would do the job as long as it is different than the keywords: SUCCESS, ERROR et MISFIRED
       tab: "all",
