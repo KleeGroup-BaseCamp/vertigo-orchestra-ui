@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Homeumd from "../views/Homeumd.vue";
 import Processumd from "../views/Processumd.vue";
+import NotFound from "../views/NotFound.vue";
 
 Vue.use(VueRouter);
 
@@ -18,6 +19,11 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: Processumd,
+  },
+  {
+    path: "*",
+    name: "NotFound",
+    component: NotFound,
   },
 ];
 

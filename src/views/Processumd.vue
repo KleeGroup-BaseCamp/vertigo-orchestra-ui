@@ -3,7 +3,12 @@
     <template v-slot:before>
       <div class="q-pa-md">
         <div class="text-h4 q-mb-md">
-          {{ processInfo.label }}
+          <div v-if="processInfo.label || errorMessage">
+            {{ processInfo.label || errorMessage }}
+          </div>
+          <div v-else>
+            <q-spinner-ios color="primary" size="sm"></q-spinner-ios>
+          </div>
         </div>
 
         <q-card class="my-card">
@@ -433,7 +438,10 @@
           </q-list>
           <template v-slot:loading>
             <div class="row justify-center q-my-md">
-              <q-spinner-ios color="primary" size="2em"></q-spinner-ios>
+              <div v-if="!errorMessage">
+                <q-spinner-ios color="primary" size="2em"></q-spinner-ios>
+              </div>
+              <div v-else class="text-weight-medium">{{ errorMessage }}</div>
             </div>
           </template>
         </q-infinite-scroll>
@@ -453,6 +461,14 @@ export default {
       )
       .then((res) => {
         this.processInfo = res.data;
+      })
+      .catch((err) => {
+        console.error(err);
+        if (err.response) {
+          this.errorMessage = `No process named: ${this.$route.params.name}`;
+        } else {
+          this.errorMessage = "Connection to the API couldn't be established";
+        }
       });
     axios
       .get(
@@ -460,34 +476,19 @@ export default {
       )
       .then((res) => {
         this.processSummary = res.data;
+      })
+      .catch((err) => {
+        console.error(err);
       });
-    axios
-      .get(
-        `${process.env.VUE_APP_API_URL}/executions/?processName=${this.$route.params.name}&limit=${this.limit}`
-      )
-      .then((res) => {
-        this.executions = this.formatExecutions(res.data);
-
-        res.data.map((execution) => {
-          this.$set(this.tabs, execution.preId, "info");
-        });
-      });
-    // Get process label from its name
-    axios
-      .get(
-        `${process.env.VUE_APP_API_URL}/definitions/${this.$route.params.name}`
-      )
-      .then((res) => {
-        this.processLabel = res.data.label;
-      });
+    this.updateExecutions("");
   },
   data() {
     return {
       limit: 0,
+      errorMessage: "",
       status: "",
       processInfo: {},
       processSummary: {},
-      processLabel: "",
       filterTab: "all", // Tab for filtering executions
       executions: [],
       activities: {},
@@ -528,11 +529,12 @@ export default {
       // Fetch data only once
       if (!this.activities[preId]) {
         axios
-          .get(
-            `${process.env.VUE_APP_API_URL}/executions/${preId}/activities`
-          )
+          .get(`${process.env.VUE_APP_API_URL}/executions/${preId}/activities`)
           .then((res) => {
             this.$set(this.activities, preId, this.formatActivities(res.data));
+          })
+          .catch((err) => {
+            console.error(err);
           });
       }
     },
