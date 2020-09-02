@@ -13,7 +13,6 @@
     </q-header>
 
     <q-page-container>
-      <!-- {{ process.env.TESTVAR }} -->
       <router-view />
     </q-page-container>
 

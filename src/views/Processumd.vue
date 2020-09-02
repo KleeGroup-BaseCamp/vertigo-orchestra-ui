@@ -577,14 +577,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss">
-$primary: #4396cb; // Duplicate of quasar variables (To refactor)
-$secondary: #4353cb;
-.text-secondary {
-  color: $secondary;
-}
-.bg-secondary {
-  color: $secondary;
-}
-</style>
