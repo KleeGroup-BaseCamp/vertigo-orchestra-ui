@@ -7,7 +7,7 @@ import Quasar from "quasar";
 
 Quasar.lang.fr = fr;
 Quasar.lang.en = en;
-Quasar.lang.set(Quasar.lang.en);
+Quasar.lang.set(Quasar.lang.fr);
 
 export function install(Vue) {
   Vue.component("orchestra-ui-standalone", Appstandalone);

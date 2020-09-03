@@ -13,7 +13,7 @@
 
         <q-card class="my-card">
           <q-card-section>
-            <div class="text-h6">Exécutions totales de la semaine</div>
+            <div class="text-h6">{{ $q.lang.orchestra.totalExecutions }}</div>
           </q-card-section>
 
           <q-separator inset></q-separator>
@@ -61,7 +61,7 @@
         <q-card class="my-card q-mt-lg">
           <q-card-section>
             <div class="text-h6">
-              Identification fonctionnelle
+              {{ $q.lang.orchestra.functionalId }}
               <q-btn
                 round
                 color="indigo"
@@ -87,7 +87,7 @@
         <q-card class="my-card q-mt-lg">
           <q-card-section>
             <div class="text-h6">
-              Identification technique
+              {{ $q.lang.orchestra.technicalId }}
               <q-btn
                 round
                 color="indigo"
@@ -105,7 +105,7 @@
                 <q-item>
                   <q-item-section>
                     <div class="text-weight-medium">
-                      Expression cron
+                      {{ $q.lang.orchestra.cronExpression }}
                     </div>
                   </q-item-section>
                   <q-item-section side>
@@ -119,15 +119,15 @@
                 <q-item>
                   <q-item-section>
                     <div class="text-weight-medium">
-                      Actif
+                      {{ $q.lang.orchestra.active }}
                     </div>
                   </q-item-section>
                   <q-item-section side>
                     {{
                       Object.entries(processInfo).length
                         ? processInfo.active
-                          ? "Oui"
-                          : "Non"
+                          ? $q.lang.orchestra.yes
+                          : $q.lang.orchestra.no
                         : "-"
                     }}
                   </q-item-section>
@@ -135,15 +135,15 @@
                 <q-item>
                   <q-item-section>
                     <div class="text-weight-medium">
-                      Autorise la multi-exécution
+                      {{ $q.lang.orchestra.multiExecution }}
                     </div>
                   </q-item-section>
                   <q-item-section side>
                     {{
                       processInfo.triggeringStrategy
                         ? processInfo.triggeringStrategy.multiExecution
-                          ? "Oui"
-                          : "Non"
+                          ? $q.lang.orchestra.yes
+                          : $q.lang.orchestra.no
                         : "-"
                     }}
                   </q-item-section>
@@ -151,7 +151,7 @@
                 <q-item>
                   <q-item-section>
                     <div class="text-weight-medium">
-                      Temps de validité d'une planification
+                      {{ $q.lang.orchestra.rescuePeriod }}
                     </div>
                   </q-item-section>
                   <q-item-section side>
@@ -171,7 +171,7 @@
         <q-card class="my-card q-mt-lg">
           <q-card-section>
             <div class="text-h6">
-              Paramètres
+              {{ $q.lang.orchestra.settings }}
               <q-btn
                 round
                 color="indigo"
@@ -198,7 +198,7 @@
     <template v-slot:after>
       <div class="q-pa-md">
         <div class="text-h4 q-gutter-x-md q-mx-auto row">
-          <div class="col">Exécutions</div>
+          <div class="col">{{ $q.lang.orchestra.executions }}</div>
           <div class="col-auto">
             <q-tabs
               v-model="filterTab"
@@ -208,20 +208,20 @@
               <q-tab
                 name="all"
                 icon="list"
-                label="All"
+                :label="$q.lang.orchestra.all"
                 @click="updateExecutions('')"
               ></q-tab>
               <q-tab
                 name="done"
                 icon="done"
-                label="Done"
+                :label="$q.lang.orchestra.done"
                 @click="updateExecutions('DONE')"
                 class="text-green"
               ></q-tab>
               <q-tab
                 name="error"
                 icon="error"
-                label="Error"
+                :label="$q.lang.orchestra.error"
                 @click="updateExecutions('ERROR')"
                 class="text-red"
               ></q-tab>
@@ -273,9 +273,18 @@
                           vertical
                           class="text-primary"
                         >
-                          <q-tab name="info" label="Informations"></q-tab>
-                          <q-tab name="activities" label="Activités"></q-tab>
-                          <q-tab name="support" label="Prise en charge"></q-tab>
+                          <q-tab
+                            name="info"
+                            :label="$q.lang.orchestra.informations"
+                          ></q-tab>
+                          <q-tab
+                            name="activities"
+                            :label="$q.lang.orchestra.activities"
+                          ></q-tab>
+                          <q-tab
+                            name="support"
+                            :label="$q.lang.orchestra.support"
+                          ></q-tab>
                         </q-tabs>
                       </template>
                       <template v-slot:after>
@@ -287,14 +296,16 @@
                           transition-next="jump-up"
                         >
                           <q-tab-panel name="info">
-                            <div class="text-h5">Informations</div>
+                            <div class="text-h5">
+                              {{ $q.lang.orchestra.informations }}
+                            </div>
                             <q-separator class="q-mt-sm q-mb-md"></q-separator>
                             <div style="max-width: 400px;">
                               <q-list dense>
                                 <q-item>
                                   <q-item-section>
                                     <div class="text-weight-medium">
-                                      Date de début
+                                      {{ $q.lang.orchestra.startTime }}
                                     </div>
                                   </q-item-section>
                                   <q-item-section side>
@@ -304,7 +315,7 @@
                                 <q-item>
                                   <q-item-section>
                                     <div class="text-weight-medium">
-                                      Date de fin
+                                      {{ $q.lang.orchestra.endTime }}
                                     </div>
                                   </q-item-section>
                                   <q-item-section side>
@@ -314,7 +325,7 @@
                                 <q-item>
                                   <q-item-section>
                                     <div class="text-weight-medium">
-                                      Durée
+                                      {{ $q.lang.orchestra.duartion }}
                                     </div>
                                   </q-item-section>
                                   <q-item-section side>
@@ -325,7 +336,9 @@
                             </div>
                           </q-tab-panel>
                           <q-tab-panel name="activities">
-                            <div class="text-h5">Activités</div>
+                            <div class="text-h5">
+                              {{ $q.lang.orchestra.activities }}
+                            </div>
                             <q-separator class="q-mt-sm q-mb-md"></q-separator>
                             <q-list bordered class="rounded-borders">
                               <div
@@ -365,7 +378,9 @@
                                           <q-item>
                                             <q-item-section>
                                               <div class="text-weight-medium">
-                                                Date de début
+                                                {{
+                                                  $q.lang.orchestra.startTime
+                                                }}
                                               </div>
                                             </q-item-section>
                                             <q-item-section side>
@@ -382,7 +397,7 @@
                           </q-tab-panel>
                           <q-tab-panel name="support">
                             <div class="text-h5">
-                              Prise en charge
+                              {{ $q.lang.orchestra.support }}
                               <q-btn
                                 round
                                 color="primary"
@@ -397,7 +412,7 @@
                                 <q-item>
                                   <q-item-section>
                                     <div class="text-weight-medium">
-                                      Prise en charge
+                                      {{ $q.lang.orchestra.support }}
                                     </div>
                                   </q-item-section>
                                   <q-item-section side>
@@ -407,7 +422,7 @@
                                 <q-item>
                                   <q-item-section>
                                     <div class="text-weight-medium">
-                                      Date de prise en charge
+                                      {{ $q.lang.orchestra.supportDate }}
                                     </div>
                                   </q-item-section>
                                   <q-item-section side>
@@ -417,7 +432,7 @@
                                 <q-item>
                                   <q-item-section>
                                     <div class="text-weight-medium">
-                                      Commentaire
+                                      {{ $q.lang.orchestra.comment }}
                                     </div>
                                   </q-item-section>
                                   <q-item-section side>
@@ -512,10 +527,10 @@ export default {
         let formattedBeginTime = this.formatDate(execution.beginTime);
         let formattedEndTime = execution.endTime
           ? this.formatDate(execution.endTime)
-          : "Exécution en cours ...";
+          : "...";
         let formattedExecutionTime = execution.executionTime
           ? execution.executionTime + "s"
-          : "Exécution en cours ...";
+          : "...";
         return {
           preId: execution.preId,
           beginTime: formattedBeginTime,
@@ -527,6 +542,7 @@ export default {
     },
     fetchActivities: function(preId) {
       // Fetch data only once
+      console.log(this.lang);
       if (!this.activities[preId]) {
         axios
           .get(`${process.env.VUE_APP_API_URL}/executions/${preId}/activities`)
