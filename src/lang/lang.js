@@ -41,6 +41,7 @@ export let fr = {
     running: "Exécution en cours ...",
     yes: "Oui",
     no: "Non",
+    noProcess: "Aucun process nommé",
   },
 };
 export let en = {
@@ -84,5 +85,6 @@ export let en = {
     running: "Running ...",
     yes: "Yes",
     no: "No",
+    noProcess: "No process named",
   },
 };

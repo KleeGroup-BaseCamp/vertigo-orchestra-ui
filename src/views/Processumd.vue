@@ -480,10 +480,11 @@ export default {
       .catch((err) => {
         console.error(err);
         if (err.response) {
-          this.errorMessage = `No process named: ${this.$route.params.name}`;
+          this.errorMessage = `${this.$q.lang.orchestra.noProcess}: ${this.$route.params.name}`;
         } else {
-          this.errorMessage = "Connection to the API couldn't be established";
+          this.errorMessage = this.$q.lang.orchestra.connectionFailed;
         }
+        this.connectionFailure = err.response ? false : true;
       });
     axios
       .get(
@@ -500,6 +501,7 @@ export default {
   data() {
     return {
       limit: 0,
+      connectionFailure: "?",
       errorMessage: "",
       status: "",
       processInfo: {},
@@ -512,6 +514,18 @@ export default {
       splitterModel: 50,
       splitterModelExecutions: 20,
     };
+  },
+  watch: {
+    "$q.lang": function() {
+      // Avoid displaying message when this.connectionFailure == ?
+      if (this.errorMessage) {
+        if (this.connectionFailure == false) {
+          this.errorMessage = `${this.$q.lang.orchestra.noProcess}: ${this.$route.params.name}`;
+        } else if (this.connectionFailure == true) {
+          this.errorMessage = this.$q.lang.orchestra.connectionFailed;
+        }
+      }
+    },
   },
   methods: {
     formatDate(unformattedDate) {
@@ -564,6 +578,8 @@ export default {
     updateExecutions: function(status) {
       this.limit = 20;
       this.status = status;
+      this.errorMessage = "";
+      this.connectionFailure = "?";
       axios
         .get(
           `${process.env.VUE_APP_API_URL}/executions/?processName=${this.$route.params.name}&status=${this.status}&limit=${this.limit}`
@@ -573,6 +589,15 @@ export default {
           res.data.map((execution) => {
             this.$set(this.tabs, execution.preId, "info");
           });
+        })
+        .catch((err) => {
+          console.error(err);
+          if (err.response) {
+            this.errorMessage = `${this.$q.lang.orchestra.noProcess}: ${this.$route.params.name}`;
+          } else {
+            this.errorMessage = this.$q.lang.orchestra.connectionFailed;
+          }
+          this.connectionFailure = err.response ? false : true;
         });
     },
     onLoad(index, done) {
