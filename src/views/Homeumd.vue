@@ -3,8 +3,8 @@
     <div style="width: 1300px;">
       <div class="text-h5 row q-mt-lg">
         <div class="q-mx-auto">
-          Exécutions du {{ startOfWeek }} au {{ endOfWeek }}
-          {{ $q.lang.orchestra.test }}
+          {{ $q.lang.orchestra.title.part1 }} {{ startOfWeek }}
+          {{ $q.lang.orchestra.title.part2 }} {{ endOfWeek }}
         </div>
       </div>
       <div class="row q-mt-lg">
@@ -12,28 +12,28 @@
           <q-tab
             name="all"
             icon="list"
-            label="All"
+            :label="$q.lang.orchestra.all"
             @click="getStatus('A')"
           ></q-tab>
           <!--Status must not be empty nor in lowercase letters. Any uppercase string would do the job as long as it is different than the keywords: SUCCESS, ERROR et MISFIRED -->
           <q-tab
             name="success"
             icon="done"
-            label="Success"
+            :label="$q.lang.orchestra.success"
             @click="getStatus('SUCCESS')"
             class="text-green"
           ></q-tab>
           <q-tab
             name="error"
             icon="error"
-            label="Error"
+            :label="$q.lang.orchestra.error"
             @click="getStatus('ERROR')"
             class="text-red"
           ></q-tab>
           <q-tab
             name="misfired"
             icon="timer_off"
-            label="Misfired"
+            :label="$q.lang.orchestra.misfired"
             @click="getStatus('MISFIRED')"
             class="text-grey"
           ></q-tab>
@@ -44,14 +44,14 @@
           <q-btn
             color="primary"
             icon="navigate_before"
-            label="Semaine précédente"
+            :label="$q.lang.orchestra.previousWeek"
             @click="getWeek(-1)"
           ></q-btn>
           <q-btn round color="primary" icon="today" @click="getWeek(0)"></q-btn>
           <q-btn
             color="primary"
             icon-right="navigate_next"
-            label="Semaine suivante"
+            :label="$q.lang.orchestra.nextWeek"
             @click="getWeek(1)"
           ></q-btn>
         </div>
@@ -107,11 +107,13 @@
           </template>
           <template v-slot:no-data>
             <div class="full-width row flex-center q-gutter-sm">
-              <span v-if="loading"> Loading <q-spinner /> </span>
-              <span v-else-if="fail">
-                Connection to the API couldn't be established !
+              <span v-if="loading">
+                {{ $q.lang.orchestra.loading }} <q-spinner />
               </span>
-              <span v-else>No data available</span>
+              <span v-else-if="fail">
+                {{ $q.lang.orchestra.connectionFailed }}
+              </span>
+              <span v-else>{{ $q.lang.orchestra.noData }}</span>
             </div>
           </template>
         </q-table>
@@ -126,7 +128,6 @@ import axios from "axios";
 export default {
   created() {
     this.getWeek(0);
-    console.log(this.$q.lang);
   },
   methods: {
     formatDate(unformattedDate) {
@@ -196,19 +197,24 @@ export default {
       columns: [
         {
           name: "processLabel",
-          label: "Process",
+          label: this.$q.lang.orchestra.processLabel,
           align: "left",
           field: "processLabel",
         },
-        { name: "state", label: "État", field: "state", align: "center" },
+        {
+          name: "state",
+          label: this.$q.lang.orchestra.state,
+          field: "state",
+          align: "center",
+        },
         {
           name: "lastExecutionTime",
-          label: "Dernière exécution",
+          label: this.$q.lang.orchestra.lastExecutionTime,
           field: "lastExecutionTime",
         },
         {
           name: "nextExecutionTime",
-          label: "Prochaine exécution",
+          label: this.$q.lang.orchestra.nextExecutionTime,
           field: "nextExecutionTime",
         },
       ],
@@ -221,6 +227,13 @@ export default {
       startOfWeek: "",
       endOfWeek: "",
     };
+  },
+  watch: {
+    "$q.lang": function() {
+      this.columns = this.columns.map((column) => {
+        return { ...column, label: this.$q.lang.orchestra[column.name] };
+      });
+    },
   },
 };
 </script>
