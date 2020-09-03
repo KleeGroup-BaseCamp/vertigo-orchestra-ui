@@ -3,12 +3,22 @@
     <q-header elevated class="text-white gradient-bg">
       <q-toolbar class="">
         <q-toolbar-title
-          ><a href="/">
-            <q-avatar> <img src="./assets/vertigo-io.png" /> </q-avatar
-          ></a>
-          Orchestra UI
+          ><div>
+            <q-avatar @click="$router.push('/')">
+              <img src="./assets/vertigo-io.png" /> </q-avatar
+            >Orchestra UI
+          </div>
         </q-toolbar-title>
-        <q-space /><q-btn flat round icon="power_settings_new" />
+        <q-space /><q-btn-toggle
+          v-model="lang"
+          :options="[
+            { label: 'Fr', value: 'fr' },
+            { label: 'En', value: 'en' },
+          ]"
+          @input="changeLang()"
+        >
+        </q-btn-toggle
+        ><q-btn flat round icon="power_settings_new" />
       </q-toolbar>
     </q-header>
 
@@ -28,14 +38,20 @@
 
 <script>
 import router from "./router";
+import Quasar from "quasar";
 export default {
   name: "app",
   router,
 
   data() {
     return {
-      left: false,
+      lang: "fr",
     };
+  },
+  methods: {
+    changeLang: function() {
+      Quasar.lang.set(this.lang == "fr" ? Quasar.lang.fr : Quasar.lang.en);
+    },
   },
 };
 </script>
@@ -47,5 +63,8 @@ $secondary: #4353cb;
 }
 div.q-loading-bar {
   display: none;
+}
+img:hover {
+  cursor: pointer;
 }
 </style>
