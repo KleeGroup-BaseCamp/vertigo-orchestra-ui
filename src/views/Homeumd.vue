@@ -4,6 +4,7 @@
       <div class="text-h5 row q-mt-lg">
         <div class="q-mx-auto">
           Exécutions du {{ startOfWeek }} au {{ endOfWeek }}
+          {{ $q.lang.orchestra.test }}
         </div>
       </div>
       <div class="row q-mt-lg">
@@ -125,6 +126,7 @@ import axios from "axios";
 export default {
   created() {
     this.getWeek(0);
+    console.log(this.$q.lang);
   },
   methods: {
     formatDate(unformattedDate) {
