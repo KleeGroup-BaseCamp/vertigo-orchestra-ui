@@ -262,6 +262,9 @@
                       "
                       text-color="white"
                     ></q-avatar>
+                    <q-tooltip>
+                      {{ execution.status }}
+                    </q-tooltip>
                   </q-item-section>
                   <q-item-section class="text-weight-medium">
                     {{ execution.beginTime }}
@@ -354,7 +357,7 @@
                                     <q-item-section avatar>
                                       <q-avatar
                                         :icon="
-                                          execution.status == 'RUNNING'
+                                          activity.status == 'RUNNING'
                                             ? 'help'
                                             : activity.status == 'DONE'
                                             ? 'done'
@@ -363,7 +366,7 @@
                                             : 'error'
                                         "
                                         :color="
-                                          execution.status == 'RUNNING'
+                                          activity.status == 'RUNNING'
                                             ? 'grey'
                                             : activity.status == 'DONE'
                                             ? 'green'
@@ -373,6 +376,9 @@
                                         "
                                         text-color="white"
                                       ></q-avatar>
+                                      <q-tooltip>
+                                        {{ activity.status }}
+                                      </q-tooltip>
                                     </q-item-section>
                                     <q-item-section class="text-weight-medium">
                                       {{ activity.label }}
@@ -560,17 +566,14 @@ export default {
       });
     },
     fetchActivities: function(preId) {
-      // Fetch data only once
-      if (!this.activities[preId]) {
-        axios
-          .get(`${this.apiUrl}/executions/${preId}/activities`)
-          .then((res) => {
-            this.$set(this.activities, preId, this.formatActivities(res.data));
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      }
+      axios
+        .get(`${this.apiUrl}/executions/${preId}/activities`)
+        .then((res) => {
+          this.$set(this.activities, preId, this.formatActivities(res.data));
+        })
+        .catch((err) => {
+          console.error(err);
+        });
     },
     formatActivities: function(unformattedActivities) {
       return unformattedActivities.map((activity) => {
