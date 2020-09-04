@@ -17,7 +17,11 @@
     <title>Orchestra</title>
   </head>
   <body>
-    <div id="app"><orchestra-ui-standalone></orchestra-ui-standalone></div>
+    <div id="app">
+      <orchestra-ui-standalone
+        api-url="http://localhost:3000/getting-started-vertigo/api/orchestra"
+      ></orchestra-ui-standalone>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@^2.0.0/dist/vue.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/quasar@1.13.1/dist/quasar.umd.min.js"></script>

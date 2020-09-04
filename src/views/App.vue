@@ -1,5 +1,5 @@
 <template>
-  <div><router-view /></div>
+  <div><router-view :api-url="apiUrl"></router-view></div>
 </template>
 
 <script>
@@ -13,6 +13,7 @@ export default {
       left: false,
     };
   },
+  props: ["apiUrl"],
 };
 </script>
 <style lang="scss">

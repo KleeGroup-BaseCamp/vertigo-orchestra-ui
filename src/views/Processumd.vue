@@ -247,6 +247,8 @@
                           ? 'done'
                           : execution.status == 'ERROR'
                           ? 'error'
+                          : execution.status == 'ABORTED'
+                          ? 'flash_on'
                           : 'help'
                       "
                       :color="
@@ -254,6 +256,8 @@
                           ? 'green'
                           : execution.status == 'ERROR'
                           ? 'red'
+                          : execution.status == 'ABORTED'
+                          ? 'orange'
                           : 'grey'
                       "
                       text-color="white"
@@ -325,7 +329,7 @@
                                 <q-item>
                                   <q-item-section>
                                     <div class="text-weight-medium">
-                                      {{ $q.lang.orchestra.duartion }}
+                                      {{ $q.lang.orchestra.duration }}
                                     </div>
                                   </q-item-section>
                                   <q-item-section side>
@@ -354,6 +358,8 @@
                                             ? 'help'
                                             : activity.status == 'DONE'
                                             ? 'done'
+                                            : activity.status == 'ABORTED'
+                                            ? 'flash_on'
                                             : 'error'
                                         "
                                         :color="
@@ -361,6 +367,8 @@
                                             ? 'grey'
                                             : activity.status == 'DONE'
                                             ? 'green'
+                                            : activity.status == 'ABORTED'
+                                            ? 'orange'
                                             : 'red'
                                         "
                                         text-color="white"
@@ -471,9 +479,7 @@ import axios from "axios";
 export default {
   created() {
     axios
-      .get(
-        `${process.env.VUE_APP_API_URL}/definitions/${this.$route.params.name}`
-      )
+      .get(`${this.apiUrl}/definitions/${this.$route.params.name}`)
       .then((res) => {
         this.processInfo = res.data;
       })
@@ -487,9 +493,7 @@ export default {
         this.connectionFailure = err.response ? false : true;
       });
     axios
-      .get(
-        `${process.env.VUE_APP_API_URL}/executions/summaries/${this.$route.params.name}`
-      )
+      .get(`${this.apiUrl}/executions/summaries/${this.$route.params.name}`)
       .then((res) => {
         this.processSummary = res.data;
       })
@@ -498,6 +502,7 @@ export default {
       });
     this.updateExecutions("");
   },
+  props: ["apiUrl"],
   data() {
     return {
       limit: 0,
@@ -556,10 +561,9 @@ export default {
     },
     fetchActivities: function(preId) {
       // Fetch data only once
-      console.log(this.lang);
       if (!this.activities[preId]) {
         axios
-          .get(`${process.env.VUE_APP_API_URL}/executions/${preId}/activities`)
+          .get(`${this.apiUrl}/executions/${preId}/activities`)
           .then((res) => {
             this.$set(this.activities, preId, this.formatActivities(res.data));
           })
@@ -582,7 +586,7 @@ export default {
       this.connectionFailure = "?";
       axios
         .get(
-          `${process.env.VUE_APP_API_URL}/executions/?processName=${this.$route.params.name}&status=${this.status}&limit=${this.limit}`
+          `${this.apiUrl}/executions/?processName=${this.$route.params.name}&status=${this.status}&limit=${this.limit}`
         )
         .then((res) => {
           this.executions = this.formatExecutions(res.data);
@@ -601,11 +605,10 @@ export default {
         });
     },
     onLoad(index, done) {
-      console.log("called");
       this.limit += 20;
       axios
         .get(
-          `${process.env.VUE_APP_API_URL}/executions/?processName=${this.$route.params.name}&status=${this.status}&limit=${this.limit}`
+          `${this.apiUrl}/executions/?processName=${this.$route.params.name}&status=${this.status}&limit=${this.limit}`
         )
         .then((res) => {
           this.executions = this.formatExecutions(res.data);

@@ -144,7 +144,7 @@ export default {
       this.data = [];
       axios
         .get(
-          `${process.env.VUE_APP_API_URL}/executions/summaries?weekOffset=${this.offset}&status=${this.status}`
+          `${this.apiUrl}/executions/summaries?weekOffset=${this.offset}&status=${this.status}`
         )
         .then((res) => {
           res.data.map((process) => {
@@ -192,6 +192,7 @@ export default {
       this.updateData();
     },
   },
+  props: ["apiUrl"],
   data() {
     return {
       columns: [

@@ -23,7 +23,7 @@
     </q-header>
 
     <q-page-container>
-      <router-view />
+      <router-view :api-url="apiUrl"></router-view>
     </q-page-container>
 
     <q-footer elevated class="bg-grey-8 text-white">
@@ -42,7 +42,7 @@ import Quasar from "quasar";
 export default {
   name: "app",
   router,
-
+  props: ["apiUrl"],
   data() {
     return {
       lang: "fr",
