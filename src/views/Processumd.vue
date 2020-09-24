@@ -94,75 +94,169 @@
                 icon="edit"
                 class="q-ml-sm"
                 size="sm"
+                @click="editMode.technical = !editMode.technical"
               ></q-btn>
             </div>
           </q-card-section>
 
           <q-separator inset></q-separator>
           <q-card-section class="q-gutter-sm">
-            <div style="max-width: 400px;">
+            <div style="max-width: 600px;">
               <q-list dense>
-                <q-item>
-                  <q-item-section>
-                    <div class="text-weight-medium">
-                      {{ $q.lang.orchestra.cronExpression }}
-                    </div>
-                  </q-item-section>
-                  <q-item-section side>
-                    {{
-                      processInfo.triggeringStrategy
-                        ? processInfo.triggeringStrategy.cronExpression
-                        : "-"
-                    }}
-                  </q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section>
-                    <div class="text-weight-medium">
-                      {{ $q.lang.orchestra.active }}
-                    </div>
-                  </q-item-section>
-                  <q-item-section side>
-                    {{
-                      Object.entries(processInfo).length
-                        ? processInfo.active
-                          ? $q.lang.orchestra.yes
-                          : $q.lang.orchestra.no
-                        : "-"
-                    }}
-                  </q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section>
-                    <div class="text-weight-medium">
-                      {{ $q.lang.orchestra.multiExecution }}
-                    </div>
-                  </q-item-section>
-                  <q-item-section side>
-                    {{
-                      processInfo.triggeringStrategy
-                        ? processInfo.triggeringStrategy.multiExecution
-                          ? $q.lang.orchestra.yes
-                          : $q.lang.orchestra.no
-                        : "-"
-                    }}
-                  </q-item-section>
-                </q-item>
-                <q-item>
-                  <q-item-section>
-                    <div class="text-weight-medium">
-                      {{ $q.lang.orchestra.rescuePeriod }}
-                    </div>
-                  </q-item-section>
-                  <q-item-section side>
-                    <!-- Temps de validité d'une planification = rescuePeriodInSeconds -->
-                    {{
-                      processInfo.triggeringStrategy
-                        ? processInfo.triggeringStrategy.rescuePeriodInSeconds
-                        : "-"
-                    }}
-                  </q-item-section>
-                </q-item>
+                <div v-if="editMode.technical">
+                  <q-form @submit="onSubmit">
+                    <q-item>
+                      <q-item-section>
+                        <div class="text-weight-medium">
+                          {{ $q.lang.orchestra.cronExpression }}
+                        </div>
+                      </q-item-section>
+                      <q-item-section side>
+                        <q-input
+                          v-model="form.technical.cronExpression"
+                          :dense="true"
+                          placeholder="* * * * * ? *"
+                        />
+                      </q-item-section>
+                    </q-item>
+                    <q-item>
+                      <q-item-section>
+                        <div class="text-weight-medium">
+                          {{ $q.lang.orchestra.active }}
+                        </div>
+                      </q-item-section>
+                      <q-item-section side>
+                        <div class="q-gutter-sm">
+                          <q-radio
+                            size="xs"
+                            v-model="form.technical.active"
+                            val="true"
+                            :label="$q.lang.orchestra.yes"
+                          />
+                          <q-radio
+                            size="xs"
+                            v-model="form.technical.active"
+                            val="false"
+                            :label="$q.lang.orchestra.no"
+                          />
+                        </div>
+                      </q-item-section>
+                    </q-item>
+                    <q-item>
+                      <q-item-section>
+                        <div class="text-weight-medium">
+                          {{ $q.lang.orchestra.multiExecution }}
+                        </div>
+                      </q-item-section>
+                      <q-item-section side>
+                        <div class="q-gutter-sm">
+                          <q-radio
+                            size="xs"
+                            v-model="form.technical.multiExecution"
+                            val="true"
+                            :label="$q.lang.orchestra.yes"
+                          />
+                          <q-radio
+                            size="xs"
+                            v-model="form.technical.multiExecution"
+                            val="false"
+                            :label="$q.lang.orchestra.no"
+                          />
+                        </div>
+                      </q-item-section>
+                    </q-item>
+                    <q-item>
+                      <q-item-section>
+                        <div class="text-weight-medium">
+                          {{ $q.lang.orchestra.rescuePeriod }}
+                        </div>
+                      </q-item-section>
+                      <q-item-section side>
+                        <q-input
+                          v-model.number="form.technical.rescuePeriod"
+                          type="number"
+                          :dense="true"
+                        />
+                      </q-item-section>
+                    </q-item>
+                    <q-item>
+                      <div>
+                        <q-btn
+                          :label="$q.lang.orchestra.submit"
+                          type="submit"
+                          color="indigo"
+                          class="q-mx-auto"
+                        />
+                      </div>
+                    </q-item>
+                  </q-form>
+                </div>
+
+                <div v-else>
+                  <q-item>
+                    <q-item-section>
+                      <div class="text-weight-medium">
+                        {{ $q.lang.orchestra.cronExpression }}
+                      </div>
+                    </q-item-section>
+                    <q-item-section side>
+                      {{
+                        processInfo.triggeringStrategy
+                          ? processInfo.triggeringStrategy.cronExpression
+                          : "-"
+                      }}
+                    </q-item-section>
+                  </q-item>
+                  <q-item>
+                    <q-item-section>
+                      <div class="text-weight-medium">
+                        {{ $q.lang.orchestra.active }}
+                      </div>
+                    </q-item-section>
+                    <q-item-section side>
+                      {{
+                        Object.entries(processInfo).length
+                          ? processInfo.active
+                            ? $q.lang.orchestra.yes
+                            : $q.lang.orchestra.no
+                          : "-"
+                      }}
+                    </q-item-section>
+                  </q-item>
+                  <q-item>
+                    <q-item-section>
+                      <div class="text-weight-medium">
+                        {{ $q.lang.orchestra.multiExecution }}
+                      </div>
+                    </q-item-section>
+                    <q-item-section side>
+                      {{
+                        processInfo.triggeringStrategy
+                          ? processInfo.triggeringStrategy.multiExecution
+                            ? $q.lang.orchestra.yes
+                            : $q.lang.orchestra.no
+                          : "-"
+                      }}
+                    </q-item-section>
+                  </q-item>
+
+                  <q-item>
+                    <q-item-section>
+                      <div class="text-weight-medium">
+                        {{ $q.lang.orchestra.rescuePeriod }}
+                      </div>
+                    </q-item-section>
+
+                    <q-item-section side>
+                      <!-- Temps de validité d'une planification = rescuePeriodInSeconds -->
+                      {{
+                        processInfo.triggeringStrategy
+                          ? processInfo.triggeringStrategy.rescuePeriodInSeconds
+                          : "-"
+                      }}
+                    </q-item-section>
+                  </q-item>
+                </div>
               </q-list>
             </div>
           </q-card-section>
@@ -488,6 +582,24 @@ export default {
       .get(`${this.apiUrl}/definitions/${this.$route.params.name}`)
       .then((res) => {
         this.processInfo = res.data;
+        this.form.technical = {
+          cronExpression: this.processInfo.triggeringStrategy
+            ? this.processInfo.triggeringStrategy.cronExpression
+            : "",
+          active: Object.entries(this.processInfo).length
+            ? this.processInfo.active
+              ? "true"
+              : "false"
+            : "-",
+          multiExecution: this.processInfo.triggeringStrategy
+            ? this.processInfo.triggeringStrategy.multiExecution
+              ? "true"
+              : "false"
+            : "-",
+          rescuePeriod: this.processInfo.triggeringStrategy
+            ? this.processInfo.triggeringStrategy.rescuePeriodInSeconds
+            : "",
+        };
       })
       .catch((err) => {
         console.error(err);
@@ -511,6 +623,8 @@ export default {
   props: ["apiUrl"],
   data() {
     return {
+      editMode: { functional: false, technical: false, settings: false },
+
       limit: 0,
       connectionFailure: "?",
       errorMessage: "",
@@ -521,6 +635,11 @@ export default {
       executions: [],
       activities: {},
       expandedExecutions: {},
+      form: {
+        functional: {},
+        technical: {},
+        settings: {},
+      },
       tabs: {}, //Tabs for navigating inside execution
       splitterModel: 50,
       splitterModelExecutions: 20,
@@ -620,6 +739,19 @@ export default {
           });
           done();
         });
+    },
+    onSubmit() {
+      axios
+        .put(
+          `${this.apiUrl}/definitions/${this.$route.params.name}/properties`,
+          {
+            cronExpression: this.form.technical.cronExpression,
+            multiExecution: this.form.technical.multiExecution == "true",
+            rescuePeriod: this.form.technical.rescuePeriod,
+            active: this.form.technical.active == "true",
+          }
+        )
+        .then(this.$router.go());
     },
   },
 };

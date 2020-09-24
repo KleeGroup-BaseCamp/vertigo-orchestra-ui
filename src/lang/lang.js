@@ -42,6 +42,7 @@ export let fr = {
     yes: "Oui",
     no: "Non",
     noProcess: "Aucun process nommé",
+    submit: "Soumettre",
   },
 };
 export let en = {
@@ -86,5 +87,6 @@ export let en = {
     yes: "Yes",
     no: "No",
     noProcess: "No process named",
+    submit: "Submit",
   },
 };
