@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --target lib src/main.js && rm -f ./test/orchestra-ui.css ./test/orchestra-ui.umd.js ./test/orchestra-ui.umd.js.map && cp ./dist/orchestra-ui.css ./test && cp ./dist/orchestra-ui.umd.js ./test && cp ./dist/orchestra-ui.umd.js.map ./test",
     "build-lib": "vue-cli-service build --target lib src/main.js",
     "test": "vue-cli-service build --target lib src/main.js && rm -f ./test/orchestra-ui.css ./test/orchestra-ui.umd.js ./test/orchestra-ui.umd.js.map && cp ./dist/orchestra-ui.css ./test && cp ./dist/orchestra-ui.umd.js ./test && cp ./dist/orchestra-ui.umd.js.map ./test && light-server -s ./test",
     "light-server": "light-server -s ./test",

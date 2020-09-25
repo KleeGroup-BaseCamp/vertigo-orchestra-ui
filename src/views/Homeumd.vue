@@ -148,12 +148,12 @@ export default {
         )
         .then((res) => {
           res.data.map((process) => {
-            process.lastExecutionTime = this.formatDate(
-              process.lastExecutionTime
-            );
-            process.nextExecutionTime = this.formatDate(
-              process.nextExecutionTime
-            );
+            process.lastExecutionTime = process.lastExecutionTime
+              ? this.formatDate(process.lastExecutionTime)
+              : "-";
+            process.nextExecutionTime = process.nextExecutionTime
+              ? this.formatDate(process.nextExecutionTime)
+              : "-";
             this.data.push(process);
           });
           this.loading = false;

@@ -62,26 +62,23 @@
           <q-card-section>
             <div class="text-h6">
               {{ $q.lang.orchestra.functionalId }}
-              <q-btn
-                round
-                color="indigo"
-                icon="edit"
-                class="q-ml-sm"
-                size="sm"
-              ></q-btn>
             </div>
           </q-card-section>
 
           <q-separator inset></q-separator>
 
           <q-card-section>
-            <q-icon
-              name="engineering"
-              color="indigo"
-              size="xl"
-              class="q-ml-lg"
-            ></q-icon
-          ></q-card-section>
+            <q-list dense>
+              <div v-for="(value, name) in processInfo.metadatas" :key="name">
+                <q-item>
+                  <q-item-section class="text-weight-medium">{{
+                    name
+                  }}</q-item-section>
+                  <q-item-section side>{{ value }}</q-item-section>
+                </q-item>
+              </div>
+            </q-list>
+          </q-card-section>
         </q-card>
 
         <q-card class="my-card q-mt-lg">
@@ -101,15 +98,13 @@
 
           <q-separator inset></q-separator>
           <q-card-section class="q-gutter-sm">
-            <div style="max-width: 600px;">
+            <div>
               <q-list dense>
                 <div v-if="editMode.technical">
-                  <q-form @submit="onSubmit">
+                  <q-form @submit="onSubmit('technical')">
                     <q-item>
-                      <q-item-section>
-                        <div class="text-weight-medium">
-                          {{ $q.lang.orchestra.cronExpression }}
-                        </div>
+                      <q-item-section class="text-weight-medium">
+                        {{ $q.lang.orchestra.cronExpression }}
                       </q-item-section>
                       <q-item-section side>
                         <q-input
@@ -120,10 +115,8 @@
                       </q-item-section>
                     </q-item>
                     <q-item>
-                      <q-item-section>
-                        <div class="text-weight-medium">
-                          {{ $q.lang.orchestra.active }}
-                        </div>
+                      <q-item-section class="text-weight-medium">
+                        {{ $q.lang.orchestra.active }}
                       </q-item-section>
                       <q-item-section side>
                         <div class="q-gutter-sm">
@@ -143,10 +136,8 @@
                       </q-item-section>
                     </q-item>
                     <q-item>
-                      <q-item-section>
-                        <div class="text-weight-medium">
-                          {{ $q.lang.orchestra.multiExecution }}
-                        </div>
+                      <q-item-section class="text-weight-medium">
+                        {{ $q.lang.orchestra.multiExecution }}
                       </q-item-section>
                       <q-item-section side>
                         <div class="q-gutter-sm">
@@ -166,10 +157,8 @@
                       </q-item-section>
                     </q-item>
                     <q-item>
-                      <q-item-section>
-                        <div class="text-weight-medium">
-                          {{ $q.lang.orchestra.rescuePeriod }}
-                        </div>
+                      <q-item-section class="text-weight-medium">
+                        {{ $q.lang.orchestra.rescuePeriod }}
                       </q-item-section>
                       <q-item-section side>
                         <q-input
@@ -179,25 +168,23 @@
                         />
                       </q-item-section>
                     </q-item>
-                    <q-item>
-                      <div>
+                    <div>
+                      <q-item>
                         <q-btn
                           :label="$q.lang.orchestra.submit"
                           type="submit"
                           color="indigo"
                           class="q-mx-auto"
                         />
-                      </div>
-                    </q-item>
+                      </q-item>
+                    </div>
                   </q-form>
                 </div>
 
                 <div v-else>
                   <q-item>
-                    <q-item-section>
-                      <div class="text-weight-medium">
-                        {{ $q.lang.orchestra.cronExpression }}
-                      </div>
+                    <q-item-section class="text-weight-medium">
+                      {{ $q.lang.orchestra.cronExpression }}
                     </q-item-section>
                     <q-item-section side>
                       {{
@@ -208,10 +195,8 @@
                     </q-item-section>
                   </q-item>
                   <q-item>
-                    <q-item-section>
-                      <div class="text-weight-medium">
-                        {{ $q.lang.orchestra.active }}
-                      </div>
+                    <q-item-section class="text-weight-medium">
+                      {{ $q.lang.orchestra.active }}
                     </q-item-section>
                     <q-item-section side>
                       {{
@@ -224,10 +209,8 @@
                     </q-item-section>
                   </q-item>
                   <q-item>
-                    <q-item-section>
-                      <div class="text-weight-medium">
-                        {{ $q.lang.orchestra.multiExecution }}
-                      </div>
+                    <q-item-section class="text-weight-medium">
+                      {{ $q.lang.orchestra.multiExecution }}
                     </q-item-section>
                     <q-item-section side>
                       {{
@@ -241,10 +224,8 @@
                   </q-item>
 
                   <q-item>
-                    <q-item-section>
-                      <div class="text-weight-medium">
-                        {{ $q.lang.orchestra.rescuePeriod }}
-                      </div>
+                    <q-item-section class="text-weight-medium">
+                      {{ $q.lang.orchestra.rescuePeriod }}
                     </q-item-section>
 
                     <q-item-section side>
@@ -272,6 +253,7 @@
                 icon="edit"
                 class="q-ml-sm"
                 size="sm"
+                @click="editMode.settings = !editMode.settings"
               ></q-btn>
             </div>
           </q-card-section>
@@ -279,13 +261,63 @@
           <q-separator inset></q-separator>
 
           <q-card-section>
-            <q-icon
-              name="engineering"
-              color="indigo"
-              size="xl"
-              class="q-ml-lg"
-            ></q-icon
-          ></q-card-section>
+            <q-list dense>
+              <div
+                v-if="
+                  processInfo.triggeringStrategy &&
+                    processInfo.triggeringStrategy.initialParams
+                "
+              >
+                <div v-if="editMode.settings">
+                  <q-form @submit="onSubmit('settings')">
+                    <div
+                      v-for="(value, name) in processInfo.triggeringStrategy
+                        .initialParams"
+                      :key="name"
+                    >
+                      <q-item>
+                        <q-item-section class="text-weight-medium">
+                          {{ name }}
+                        </q-item-section>
+                        <q-item-section side>
+                          <q-input
+                            v-model="form.settings[name]"
+                            :dense="true"
+                          />
+                        </q-item-section>
+                      </q-item>
+                    </div>
+                    <div>
+                      <q-item>
+                        <q-btn
+                          :label="$q.lang.orchestra.submit"
+                          type="submit"
+                          color="indigo"
+                          class="q-mx-auto"
+                        />
+                      </q-item>
+                    </div>
+                  </q-form>
+                </div>
+                <div v-else>
+                  <div
+                    v-for="(value, name) in processInfo.triggeringStrategy
+                      .initialParams"
+                    :key="name"
+                  >
+                    <q-item>
+                      <q-item-section class="text-weight-medium">
+                        {{ name }}
+                      </q-item-section>
+                      <q-item-section side>
+                        {{ value }}
+                      </q-item-section>
+                    </q-item>
+                  </div>
+                </div>
+              </div>
+            </q-list>
+          </q-card-section>
         </q-card>
       </div>
     </template>
@@ -561,7 +593,7 @@
           </q-list>
           <template v-slot:loading>
             <div class="row justify-center q-my-md">
-              <div v-if="!errorMessage">
+              <div v-if="!errorMessage && !executionsLoaded">
                 <q-spinner-ios color="primary" size="2em"></q-spinner-ios>
               </div>
               <div v-else class="text-weight-medium">{{ errorMessage }}</div>
@@ -582,6 +614,8 @@ export default {
       .get(`${this.apiUrl}/definitions/${this.$route.params.name}`)
       .then((res) => {
         this.processInfo = res.data;
+
+        // Init technical form fields
         this.form.technical = {
           cronExpression: this.processInfo.triggeringStrategy
             ? this.processInfo.triggeringStrategy.cronExpression
@@ -600,6 +634,14 @@ export default {
             ? this.processInfo.triggeringStrategy.rescuePeriodInSeconds
             : "",
         };
+
+        // Init settings form fields
+
+        this.form.settings = this.processInfo.triggeringStrategy
+          ? this.processInfo.triggeringStrategy.initialParams
+            ? { ...this.processInfo.triggeringStrategy.initialParams }
+            : {}
+          : {};
       })
       .catch((err) => {
         console.error(err);
@@ -623,8 +665,8 @@ export default {
   props: ["apiUrl"],
   data() {
     return {
-      editMode: { functional: false, technical: false, settings: false },
-
+      editMode: { technical: false, settings: false },
+      executionsLoaded: false,
       limit: 0,
       connectionFailure: "?",
       errorMessage: "",
@@ -636,7 +678,6 @@ export default {
       activities: {},
       expandedExecutions: {},
       form: {
-        functional: {},
         technical: {},
         settings: {},
       },
@@ -733,25 +774,40 @@ export default {
           `${this.apiUrl}/executions/?processName=${this.$route.params.name}&status=${this.status}&limit=${this.limit}`
         )
         .then((res) => {
-          this.executions = this.formatExecutions(res.data);
-          res.data.slice(-20).map((execution) => {
-            this.$set(this.tabs, execution.preId, "info");
-          });
+          let formattedExecutions = this.formatExecutions(res.data)
+          if (this.executions[this.executions.length - 1].preId == formattedExecutions[formattedExecutions.length - 1].preId) {
+            this.executionsLoaded = true;
+          } else {
+            this.executions = formattedExecutions;
+            res.data.slice(-20).map((execution) => {
+              this.$set(this.tabs, execution.preId, "info");
+            });
+          }
           done();
         });
     },
-    onSubmit() {
-      axios
-        .put(
-          `${this.apiUrl}/definitions/${this.$route.params.name}/properties`,
-          {
-            cronExpression: this.form.technical.cronExpression,
-            multiExecution: this.form.technical.multiExecution == "true",
-            rescuePeriod: this.form.technical.rescuePeriod,
-            active: this.form.technical.active == "true",
-          }
-        )
-        .then(this.$router.go());
+    onSubmit(form) {
+      if (form == "technical") {
+        axios
+          .put(
+            `${this.apiUrl}/definitions/${this.$route.params.name}/properties`,
+            {
+              cronExpression: this.form.technical.cronExpression,
+              multiExecution: this.form.technical.multiExecution == "true",
+              rescuePeriod: this.form.technical.rescuePeriod,
+              active: this.form.technical.active == "true",
+            }
+          )
+          .then(this.$router.go())
+          .catch(console.error);
+      } else if (form == "settings") {
+        axios
+          .put(`${this.apiUrl}/definitions/${this.$route.params.name}/params`, {
+            initialParams: this.form.settings,
+          })
+          .then(this.$router.go())
+          .catch(console.error);
+      }
     },
   },
 };
