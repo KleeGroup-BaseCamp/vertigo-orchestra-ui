@@ -283,6 +283,11 @@
                           <q-input
                             v-model="form.settings[name]"
                             :dense="true"
+                            :rules="[
+                              (val) =>
+                                (val && val.length > 0) ||
+                                $q.lang.orchestra.fieldCannotBeEmpty,
+                            ]"
                           />
                         </q-item-section>
                       </q-item>
@@ -774,8 +779,11 @@ export default {
           `${this.apiUrl}/executions/?processName=${this.$route.params.name}&status=${this.status}&limit=${this.limit}`
         )
         .then((res) => {
-          let formattedExecutions = this.formatExecutions(res.data)
-          if (this.executions[this.executions.length - 1].preId == formattedExecutions[formattedExecutions.length - 1].preId) {
+          let formattedExecutions = this.formatExecutions(res.data);
+          if (
+            this.executions[this.executions.length - 1].preId ==
+            formattedExecutions[formattedExecutions.length - 1].preId
+          ) {
             this.executionsLoaded = true;
           } else {
             this.executions = formattedExecutions;

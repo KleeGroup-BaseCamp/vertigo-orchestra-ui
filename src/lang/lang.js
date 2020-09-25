@@ -43,6 +43,7 @@ export let fr = {
     no: "Non",
     noProcess: "Aucun process nommé",
     submit: "Soumettre",
+    fieldCannotBeEmpty: "Ce champ ne peut pas être vide",
   },
 };
 export let en = {
@@ -88,5 +89,6 @@ export let en = {
     no: "No",
     noProcess: "No process named",
     submit: "Submit",
+    fieldCannotBeEmpty: "This field can't be empty",
   },
 };
