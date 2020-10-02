@@ -13,7 +13,7 @@
 
         <q-card class="my-card">
           <q-card-section>
-            <div class="text-h6">{{ $q.lang.orchestra.totalExecutions }}</div>
+            <div class="text-h6">{{ $q.lang.vui.orchestra.totalExecutions }}</div>
           </q-card-section>
 
           <q-separator inset></q-separator>
@@ -61,7 +61,7 @@
         <q-card class="my-card q-mt-lg">
           <q-card-section>
             <div class="text-h6">
-              {{ $q.lang.orchestra.functionalId }}
+              {{ $q.lang.vui.orchestra.functionalId }}
             </div>
           </q-card-section>
 
@@ -84,7 +84,7 @@
         <q-card class="my-card q-mt-lg">
           <q-card-section>
             <div class="text-h6">
-              {{ $q.lang.orchestra.technicalId }}
+              {{ $q.lang.vui.orchestra.technicalId }}
               <q-btn
                 round
                 color="indigo"
@@ -104,7 +104,7 @@
                   <q-form @submit="onSubmit('technical')">
                     <q-item>
                       <q-item-section class="text-weight-medium">
-                        {{ $q.lang.orchestra.cronExpression }}
+                        {{ $q.lang.vui.orchestra.cronExpression }}
                       </q-item-section>
                       <q-item-section side>
                         <q-input
@@ -116,7 +116,7 @@
                     </q-item>
                     <q-item>
                       <q-item-section class="text-weight-medium">
-                        {{ $q.lang.orchestra.active }}
+                        {{ $q.lang.vui.orchestra.active }}
                       </q-item-section>
                       <q-item-section side>
                         <div class="q-gutter-sm">
@@ -124,20 +124,20 @@
                             size="xs"
                             v-model="form.technical.active"
                             val="true"
-                            :label="$q.lang.orchestra.yes"
+                            :label="$q.lang.vui.orchestra.yes"
                           />
                           <q-radio
                             size="xs"
                             v-model="form.technical.active"
                             val="false"
-                            :label="$q.lang.orchestra.no"
+                            :label="$q.lang.vui.orchestra.no"
                           />
                         </div>
                       </q-item-section>
                     </q-item>
                     <q-item>
                       <q-item-section class="text-weight-medium">
-                        {{ $q.lang.orchestra.multiExecution }}
+                        {{ $q.lang.vui.orchestra.multiExecution }}
                       </q-item-section>
                       <q-item-section side>
                         <div class="q-gutter-sm">
@@ -145,20 +145,20 @@
                             size="xs"
                             v-model="form.technical.multiExecution"
                             val="true"
-                            :label="$q.lang.orchestra.yes"
+                            :label="$q.lang.vui.orchestra.yes"
                           />
                           <q-radio
                             size="xs"
                             v-model="form.technical.multiExecution"
                             val="false"
-                            :label="$q.lang.orchestra.no"
+                            :label="$q.lang.vui.orchestra.no"
                           />
                         </div>
                       </q-item-section>
                     </q-item>
                     <q-item>
                       <q-item-section class="text-weight-medium">
-                        {{ $q.lang.orchestra.rescuePeriod }}
+                        {{ $q.lang.vui.orchestra.rescuePeriod }}
                       </q-item-section>
                       <q-item-section side>
                         <q-input
@@ -171,7 +171,7 @@
                     <div>
                       <q-item>
                         <q-btn
-                          :label="$q.lang.orchestra.submit"
+                          :label="$q.lang.vui.orchestra.submit"
                           type="submit"
                           color="indigo"
                           class="q-mx-auto"
@@ -184,7 +184,7 @@
                 <div v-else>
                   <q-item>
                     <q-item-section class="text-weight-medium">
-                      {{ $q.lang.orchestra.cronExpression }}
+                      {{ $q.lang.vui.orchestra.cronExpression }}
                     </q-item-section>
                     <q-item-section side>
                       {{
@@ -196,28 +196,28 @@
                   </q-item>
                   <q-item>
                     <q-item-section class="text-weight-medium">
-                      {{ $q.lang.orchestra.active }}
+                      {{ $q.lang.vui.orchestra.active }}
                     </q-item-section>
                     <q-item-section side>
                       {{
                         Object.entries(processInfo).length
                           ? processInfo.active
-                            ? $q.lang.orchestra.yes
-                            : $q.lang.orchestra.no
+                            ? $q.lang.vui.orchestra.yes
+                            : $q.lang.vui.orchestra.no
                           : "-"
                       }}
                     </q-item-section>
                   </q-item>
                   <q-item>
                     <q-item-section class="text-weight-medium">
-                      {{ $q.lang.orchestra.multiExecution }}
+                      {{ $q.lang.vui.orchestra.multiExecution }}
                     </q-item-section>
                     <q-item-section side>
                       {{
                         processInfo.triggeringStrategy
                           ? processInfo.triggeringStrategy.multiExecution
-                            ? $q.lang.orchestra.yes
-                            : $q.lang.orchestra.no
+                            ? $q.lang.vui.orchestra.yes
+                            : $q.lang.vui.orchestra.no
                           : "-"
                       }}
                     </q-item-section>
@@ -225,7 +225,7 @@
 
                   <q-item>
                     <q-item-section class="text-weight-medium">
-                      {{ $q.lang.orchestra.rescuePeriod }}
+                      {{ $q.lang.vui.orchestra.rescuePeriod }}
                     </q-item-section>
 
                     <q-item-section side>
@@ -246,7 +246,7 @@
         <q-card class="my-card q-mt-lg">
           <q-card-section>
             <div class="text-h6">
-              {{ $q.lang.orchestra.settings }}
+              {{ $q.lang.vui.orchestra.settings }}
               <q-btn
                 round
                 color="indigo"
@@ -286,7 +286,7 @@
                             :rules="[
                               (val) =>
                                 (val && val.length > 0) ||
-                                $q.lang.orchestra.fieldCannotBeEmpty,
+                                $q.lang.vui.orchestra.fieldCannotBeEmpty,
                             ]"
                           />
                         </q-item-section>
@@ -295,7 +295,7 @@
                     <div>
                       <q-item>
                         <q-btn
-                          :label="$q.lang.orchestra.submit"
+                          :label="$q.lang.vui.orchestra.submit"
                           type="submit"
                           color="indigo"
                           class="q-mx-auto"
@@ -329,7 +329,7 @@
     <template v-slot:after>
       <div class="q-pa-md">
         <div class="text-h4 q-gutter-x-md q-mx-auto row">
-          <div class="col">{{ $q.lang.orchestra.executions }}</div>
+          <div class="col">{{ $q.lang.vui.orchestra.executions }}</div>
           <div class="col-auto">
             <q-tabs
               v-model="filterTab"
@@ -339,20 +339,20 @@
               <q-tab
                 name="all"
                 icon="list"
-                :label="$q.lang.orchestra.all"
+                :label="$q.lang.vui.orchestra.all"
                 @click="updateExecutions('')"
               ></q-tab>
               <q-tab
                 name="done"
                 icon="done"
-                :label="$q.lang.orchestra.done"
+                :label="$q.lang.vui.orchestra.done"
                 @click="updateExecutions('DONE')"
                 class="text-green"
               ></q-tab>
               <q-tab
                 name="error"
                 icon="error"
-                :label="$q.lang.orchestra.error"
+                :label="$q.lang.vui.orchestra.error"
                 @click="updateExecutions('ERROR')"
                 class="text-red"
               ></q-tab>
@@ -413,15 +413,15 @@
                         >
                           <q-tab
                             name="info"
-                            :label="$q.lang.orchestra.informations"
+                            :label="$q.lang.vui.orchestra.informations"
                           ></q-tab>
                           <q-tab
                             name="activities"
-                            :label="$q.lang.orchestra.activities"
+                            :label="$q.lang.vui.orchestra.activities"
                           ></q-tab>
                           <q-tab
                             name="support"
-                            :label="$q.lang.orchestra.support"
+                            :label="$q.lang.vui.orchestra.support"
                           ></q-tab>
                         </q-tabs>
                       </template>
@@ -435,7 +435,7 @@
                         >
                           <q-tab-panel name="info">
                             <div class="text-h5">
-                              {{ $q.lang.orchestra.informations }}
+                              {{ $q.lang.vui.orchestra.informations }}
                             </div>
                             <q-separator class="q-mt-sm q-mb-md"></q-separator>
                             <div style="max-width: 400px;">
@@ -443,7 +443,7 @@
                                 <q-item>
                                   <q-item-section>
                                     <div class="text-weight-medium">
-                                      {{ $q.lang.orchestra.startTime }}
+                                      {{ $q.lang.vui.orchestra.startTime }}
                                     </div>
                                   </q-item-section>
                                   <q-item-section side>
@@ -453,7 +453,7 @@
                                 <q-item>
                                   <q-item-section>
                                     <div class="text-weight-medium">
-                                      {{ $q.lang.orchestra.endTime }}
+                                      {{ $q.lang.vui.orchestra.endTime }}
                                     </div>
                                   </q-item-section>
                                   <q-item-section side>
@@ -463,7 +463,7 @@
                                 <q-item>
                                   <q-item-section>
                                     <div class="text-weight-medium">
-                                      {{ $q.lang.orchestra.duration }}
+                                      {{ $q.lang.vui.orchestra.duration }}
                                     </div>
                                   </q-item-section>
                                   <q-item-section side>
@@ -475,7 +475,7 @@
                           </q-tab-panel>
                           <q-tab-panel name="activities">
                             <div class="text-h5">
-                              {{ $q.lang.orchestra.activities }}
+                              {{ $q.lang.vui.orchestra.activities }}
                             </div>
                             <q-separator class="q-mt-sm q-mb-md"></q-separator>
                             <q-list bordered class="rounded-borders">
@@ -524,7 +524,7 @@
                                             <q-item-section>
                                               <div class="text-weight-medium">
                                                 {{
-                                                  $q.lang.orchestra.startTime
+                                                  $q.lang.vui.orchestra.startTime
                                                 }}
                                               </div>
                                             </q-item-section>
@@ -542,7 +542,7 @@
                           </q-tab-panel>
                           <q-tab-panel name="support">
                             <div class="text-h5">
-                              {{ $q.lang.orchestra.support }}
+                              {{ $q.lang.vui.orchestra.support }}
                               <q-btn
                                 round
                                 color="primary"
@@ -557,7 +557,7 @@
                                 <q-item>
                                   <q-item-section>
                                     <div class="text-weight-medium">
-                                      {{ $q.lang.orchestra.support }}
+                                      {{ $q.lang.vui.orchestra.support }}
                                     </div>
                                   </q-item-section>
                                   <q-item-section side>
@@ -567,7 +567,7 @@
                                 <q-item>
                                   <q-item-section>
                                     <div class="text-weight-medium">
-                                      {{ $q.lang.orchestra.supportDate }}
+                                      {{ $q.lang.vui.orchestra.supportDate }}
                                     </div>
                                   </q-item-section>
                                   <q-item-section side>
@@ -577,7 +577,7 @@
                                 <q-item>
                                   <q-item-section>
                                     <div class="text-weight-medium">
-                                      {{ $q.lang.orchestra.comment }}
+                                      {{ $q.lang.vui.orchestra.comment }}
                                     </div>
                                   </q-item-section>
                                   <q-item-section side>
@@ -616,7 +616,7 @@ import axios from "axios";
 export default {
   created() {
     axios
-      .get(`${this.apiUrl}/definitions/${this.$route.params.name}`)
+      .get(`${this.apiUrl}/definitions/${this.$props.processName}`)
       .then((res) => {
         this.processInfo = res.data;
 
@@ -651,14 +651,14 @@ export default {
       .catch((err) => {
         console.error(err);
         if (err.response) {
-          this.errorMessage = `${this.$q.lang.orchestra.noProcess}: ${this.$route.params.name}`;
+          this.errorMessage = `${this.$q.lang.vui.orchestra.noProcess}: ${this.$props.processName}`;
         } else {
-          this.errorMessage = this.$q.lang.orchestra.connectionFailed;
+          this.errorMessage = this.$q.lang.vui.orchestra.connectionFailed;
         }
         this.connectionFailure = err.response ? false : true;
       });
     axios
-      .get(`${this.apiUrl}/executions/summaries/${this.$route.params.name}`)
+      .get(`${this.apiUrl}/executions/summaries/${this.$props.processName}`)
       .then((res) => {
         this.processSummary = res.data;
       })
@@ -667,7 +667,7 @@ export default {
       });
     this.updateExecutions("");
   },
-  props: ["apiUrl"],
+  props: ["apiUrl", "processName"],
   data() {
     return {
       editMode: { technical: false, settings: false },
@@ -696,9 +696,9 @@ export default {
       // Avoid displaying message when this.connectionFailure == ?
       if (this.errorMessage) {
         if (this.connectionFailure == false) {
-          this.errorMessage = `${this.$q.lang.orchestra.noProcess}: ${this.$route.params.name}`;
+          this.errorMessage = `${this.$q.lang.vui.orchestra.noProcess}: ${this.$props.processName}`;
         } else if (this.connectionFailure == true) {
-          this.errorMessage = this.$q.lang.orchestra.connectionFailed;
+          this.errorMessage = this.$q.lang.vui.orchestra.connectionFailed;
         }
       }
     },
@@ -754,7 +754,7 @@ export default {
       this.connectionFailure = "?";
       axios
         .get(
-          `${this.apiUrl}/executions/?processName=${this.$route.params.name}&status=${this.status}&limit=${this.limit}`
+          `${this.apiUrl}/executions/?processName=${this.$props.processName}&status=${this.status}&limit=${this.limit}`
         )
         .then((res) => {
           this.executions = this.formatExecutions(res.data);
@@ -765,9 +765,9 @@ export default {
         .catch((err) => {
           console.error(err);
           if (err.response) {
-            this.errorMessage = `${this.$q.lang.orchestra.noProcess}: ${this.$route.params.name}`;
+            this.errorMessage = `${this.$q.lang.vui.orchestra.noProcess}: ${this.$props.processName}`;
           } else {
-            this.errorMessage = this.$q.lang.orchestra.connectionFailed;
+            this.errorMessage = this.$q.lang.vui.orchestra.connectionFailed;
           }
           this.connectionFailure = err.response ? false : true;
         });
@@ -776,7 +776,7 @@ export default {
       this.limit += 20;
       axios
         .get(
-          `${this.apiUrl}/executions/?processName=${this.$route.params.name}&status=${this.status}&limit=${this.limit}`
+          `${this.apiUrl}/executions/?processName=${this.$props.processName}&status=${this.status}&limit=${this.limit}`
         )
         .then((res) => {
           let formattedExecutions = this.formatExecutions(res.data);
@@ -798,7 +798,7 @@ export default {
       if (form == "technical") {
         axios
           .put(
-            `${this.apiUrl}/definitions/${this.$route.params.name}/properties`,
+            `${this.apiUrl}/definitions/${this.$props.processName}/properties`,
             {
               cronExpression: this.form.technical.cronExpression,
               multiExecution: this.form.technical.multiExecution == "true",
@@ -810,7 +810,7 @@ export default {
           .catch(console.error);
       } else if (form == "settings") {
         axios
-          .put(`${this.apiUrl}/definitions/${this.$route.params.name}/params`, {
+          .put(`${this.apiUrl}/definitions/${this.$props.processName}/params`, {
             initialParams: this.form.settings,
           })
           .then(this.$router.go())

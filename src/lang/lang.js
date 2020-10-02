@@ -1,7 +1,6 @@
-import Quasar from "quasar";
+
 
 export let fr = {
-  ...Quasar.lang.fr,
   orchestra: {
     title: {
       part1: "Exécutions du",
@@ -47,7 +46,6 @@ export let fr = {
   },
 };
 export let en = {
-  ...Quasar.lang.props,
   orchestra: {
     title: {
       part1: "Executions from",

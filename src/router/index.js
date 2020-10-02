@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Homeumd from "../views/Homeumd.vue";
-import Processumd from "../views/Processumd.vue";
+import Home from "../views/Home.vue";
+import Process from "../views/Process.vue";
 import NotFound from "../views/NotFound.vue";
 
 Vue.use(VueRouter);
@@ -10,12 +10,13 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Homeumd,
+    component: Home,
   },
   {
     path: "/process/:name",
     name: "Process",
-    component: Processumd,
+    component: Process,
+    props : route => ({ processName: route.params.name })
   },
   {
     path: "*",

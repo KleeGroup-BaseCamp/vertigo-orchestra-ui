@@ -1,14 +1,7 @@
 module.exports = {
-  pluginOptions: {
-    quasar: {
-      importStrategy: "kebab",
-      rtlSupport: false,
-    },
-  },
-  transpileDependencies: ["quasar"],
   configureWebpack: {
     output: {
-      library: "orchestraUi", // Add this line to expose the library in the devServer
+      library: "VertigoOrchestraUi", // Add this line to expose the library in the devServer
       libraryTarget: "umd",
     },
     devServer: {

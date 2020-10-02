@@ -3,8 +3,8 @@
     <div style="width: 1300px;">
       <div class="text-h5 row q-mt-lg">
         <div class="q-mx-auto">
-          {{ $q.lang.orchestra.title.part1 }} {{ startOfWeek }}
-          {{ $q.lang.orchestra.title.part2 }} {{ endOfWeek }}
+          {{ $q.lang.vui.orchestra.title.part1 }} {{ startOfWeek }}
+          {{ $q.lang.vui.orchestra.title.part2 }} {{ endOfWeek }}
         </div>
       </div>
       <div class="row q-mt-lg">
@@ -12,28 +12,28 @@
           <q-tab
             name="all"
             icon="list"
-            :label="$q.lang.orchestra.all"
+            :label="$q.lang.vui.orchestra.all"
             @click="getStatus('A')"
           ></q-tab>
           <!--Status must not be empty nor in lowercase letters. Any uppercase string would do the job as long as it is different than the keywords: SUCCESS, ERROR et MISFIRED -->
           <q-tab
             name="success"
             icon="done"
-            :label="$q.lang.orchestra.success"
+            :label="$q.lang.vui.orchestra.success"
             @click="getStatus('SUCCESS')"
             class="text-green"
           ></q-tab>
           <q-tab
             name="error"
             icon="error"
-            :label="$q.lang.orchestra.error"
+            :label="$q.lang.vui.orchestra.error"
             @click="getStatus('ERROR')"
             class="text-red"
           ></q-tab>
           <q-tab
             name="misfired"
             icon="timer_off"
-            :label="$q.lang.orchestra.misfired"
+            :label="$q.lang.vui.orchestra.misfired"
             @click="getStatus('MISFIRED')"
             class="text-grey"
           ></q-tab>
@@ -44,14 +44,14 @@
           <q-btn
             color="primary"
             icon="navigate_before"
-            :label="$q.lang.orchestra.previousWeek"
+            :label="$q.lang.vui.orchestra.previousWeek"
             @click="getWeek(-1)"
           ></q-btn>
           <q-btn round color="primary" icon="today" @click="getWeek(0)"></q-btn>
           <q-btn
             color="primary"
             icon-right="navigate_next"
-            :label="$q.lang.orchestra.nextWeek"
+            :label="$q.lang.vui.orchestra.nextWeek"
             @click="getWeek(1)"
           ></q-btn>
         </div>
@@ -108,12 +108,12 @@
           <template v-slot:no-data>
             <div class="full-width row flex-center q-gutter-sm">
               <span v-if="loading">
-                {{ $q.lang.orchestra.loading }} <q-spinner />
+                {{ $q.lang.vui.orchestra.loading }} <q-spinner />
               </span>
               <span v-else-if="fail">
-                {{ $q.lang.orchestra.connectionFailed }}
+                {{ $q.lang.vui.orchestra.connectionFailed }}
               </span>
-              <span v-else>{{ $q.lang.orchestra.noData }}</span>
+              <span v-else>{{ $q.lang.vui.orchestra.noData }}</span>
             </div>
           </template>
         </q-table>
@@ -198,24 +198,24 @@ export default {
       columns: [
         {
           name: "processLabel",
-          label: this.$q.lang.orchestra.processLabel,
+          label: this.$q.lang.vui.orchestra.processLabel,
           align: "left",
           field: "processLabel",
         },
         {
           name: "state",
-          label: this.$q.lang.orchestra.state,
+          label: this.$q.lang.vui.orchestra.state,
           field: "state",
           align: "center",
         },
         {
           name: "lastExecutionTime",
-          label: this.$q.lang.orchestra.lastExecutionTime,
+          label: this.$q.lang.vui.orchestra.lastExecutionTime,
           field: "lastExecutionTime",
         },
         {
           name: "nextExecutionTime",
-          label: this.$q.lang.orchestra.nextExecutionTime,
+          label: this.$q.lang.vui.orchestra.nextExecutionTime,
           field: "nextExecutionTime",
         },
       ],
@@ -232,7 +232,7 @@ export default {
   watch: {
     "$q.lang": function() {
       this.columns = this.columns.map((column) => {
-        return { ...column, label: this.$q.lang.orchestra[column.name] };
+        return { ...column, label: this.$q.lang.vui.orchestra[column.name] };
       });
     },
   },
