@@ -1,21 +1,37 @@
 import AppStandalone from "./App-standalone.vue";
-import App from "./views/App.vue";
-import Home from "./views/Home.vue";
-import Process from "./views/Process.vue";
-import { fr, en } from "./lang/lang.js";
+import VuOApp from "./views/VuOApp.vue";
+import VuOHome from "./views/VuOHome.vue";
+import VuOProcess from "./views/VuOProcess.vue";
+
+import Fr from "./lang/vertigo-orchestra-fr.js";
+import En from "./lang/vertigo-orchestra-en.js";
 import Quasar from "quasar";
 
-if(Quasar.lang.fr) {
-  Quasar.lang.fr.vui = {...Quasar.lang.fr.vui, fr}
-}
-if(Quasar.lang.enUs) {
-  Quasar.lang.enUs.vui = {...Quasar.lang.enUs.vui, ...en}
-}
+var VertigoOrchestraUi = {
+
 //Quasar.lang.set(Quasar.lang.fr);
 
-export function install(Vue) {
-  Vue.component("vui-orchestra-standalone", AppStandalone);
-  Vue.component("vui-orchestra", App);
-  Vue.component("vui-orchestra-home", Home);
-  Vue.component("vui-orchestra-process", Process);
+  install : function (Vue) {
+    Vue.component("vui-orchestra-standalone", AppStandalone);
+    Vue.component("vui-orchestra", VuOApp);
+    Vue.component("vui-orchestra-home", VuOHome);
+    Vue.component("vui-orchestra-process", VuOProcess);
+
+  } 
+  
+  
 }
+
+if(Quasar.lang.fr) { 
+  Quasar.lang.fr.vui = {...Quasar.lang.fr.vui, ...Fr}
+}
+if(Quasar.lang.enUs) {
+  Quasar.lang.enUs.vui = {...Quasar.lang.enUs.vui, ...En}
+}
+
+if (window) {
+  window.VertigoOrchestraUi = VertigoOrchestraUi
+  window.Vue.use(VertigoOrchestraUi)
+}
+
+export default VertigoOrchestraUi;

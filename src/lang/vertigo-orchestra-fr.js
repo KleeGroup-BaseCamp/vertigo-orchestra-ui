@@ -1,6 +1,4 @@
-
-
-export let fr = {
+export default {
   orchestra: {
     title: {
       part1: "Exécutions du",
@@ -43,50 +41,5 @@ export let fr = {
     noProcess: "Aucun process nommé",
     submit: "Soumettre",
     fieldCannotBeEmpty: "Ce champ ne peut pas être vide",
-  },
-};
-export let en = {
-  orchestra: {
-    title: {
-      part1: "Executions from",
-      part2: "to",
-    },
-    all: "all",
-    success: "success",
-    error: "error",
-    misfired: "misfired",
-    previousWeek: "Previous week",
-    nextWeek: "Next week",
-    processLabel: "Process",
-    state: "State",
-    lastExecutionTime: "Last execution",
-    nextExecutionTime: "Next execution",
-    connectionFailed: "Connection to the API couldn't be established !",
-    loading: "Loading",
-    noData: "No data available",
-    totalExecutions: "Total executions of the week",
-    functionalId: "Functional identification",
-    technicalId: "Technical identification",
-    cronExpression: "Cron expression",
-    active: "Active",
-    multiExecution: "Allows multi-execution",
-    rescuePeriod: "Validity of a planning (s)",
-    settings: "Settings",
-    executions: "Executions",
-    done: "Done",
-    informations: "Informations",
-    activities: "Activities",
-    support: "Support",
-    startTime: "Start time",
-    endTime: "End time",
-    duration: "Duration",
-    supportDate: "Time of support",
-    comment: "Comment",
-    running: "Running ...",
-    yes: "Yes",
-    no: "No",
-    noProcess: "No process named",
-    submit: "Submit",
-    fieldCannotBeEmpty: "This field can't be empty",
   },
 };

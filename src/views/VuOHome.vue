@@ -185,6 +185,9 @@ export default {
       let weekLimits = this.getWeekLimits(this.offset);
       this.startOfWeek = weekLimits.startOfWeek;
       this.endOfWeek = weekLimits.endOfWeek;
+      if (!this.status) {
+        this.status = "A";
+      }
       this.updateData();
     },
     getStatus(status) {
